@@ -11,7 +11,7 @@ public class Game {
 	 *  A board is initialised. Legal HPiece moves and legal VPiece moves available on this board are then printed.
 	 */
 	public static void main(String[] args){
-		Board board = new Board();
+		Board board = new Board(5, "V V B + H\n+ + B + +\n+ H V + B\n+ B B + H\n+ + B H +");
 		board.updateAllPieces();
 		System.out.println(board.getNumLegalHMoves());
 		System.out.println(board.getNumLegalVMoves());
