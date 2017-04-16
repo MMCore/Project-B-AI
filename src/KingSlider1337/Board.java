@@ -2,6 +2,8 @@ package KingSlider1337;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import aiproj.slider.Move;
+
 
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948)
@@ -13,9 +15,9 @@ public class Board {
 	private int boardSize;
 	private int numLegalHMoves;
 	private int numLegalVMoves;
-	private Piece[][] boardContents;
-	private ArrayList<HPiece> inPlayH;
-	private ArrayList<VPiece> inPlayV;
+	private static Piece[][] boardContents;
+	private static ArrayList<HPiece> inPlayH;
+	private static ArrayList<VPiece> inPlayV;
 	
 	
 	public Board(int dimensions, String board_input) {
@@ -34,7 +36,7 @@ public class Board {
 		char pieceType;
 		for(int j=boardSize-1; j>=0; j--){
 			for(int i=0; i<boardSize; i++){
-				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2);
+				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2); //TO-DO clean up magic numbers
 				if (pieceType == 'H'){
 					HPiece piece = new HPiece(i,j);
 					boardContents[i][j] = piece;
@@ -87,6 +89,69 @@ public class Board {
 		return numLegalVMoves;
 	}
 	
+
+	public void movePiece(int i, int j, Move.Direction d){
+		Piece currPiece = boardContents[i][j];
+		if (d==Move.Direction.UP){
+			if ((j+1)==boardSize){
+				if (inPlayH.contains(currPiece)){
+					inPlayH.remove(currPiece);
+				}
+				else if (inPlayV.contains(currPiece)){
+					inPlayV.remove(currPiece);
+				}
+			}
+			else{
+				currPiece.setY(j+1);
+				boardContents[i][j+1] = currPiece;
+			}
+		}
+		else if (d==Move.Direction.DOWN){
+			currPiece.setY(j-1);
+			boardContents[i][j-1] = currPiece;
+		}
+		else if (d==Move.Direction.LEFT){
+			currPiece.setX(i-1);
+			boardContents[i-1][j] = currPiece;
+		}
+		else if (d==Move.Direction.RIGHT){
+			if ((i+1)==boardSize){
+				if (inPlayH.contains(currPiece)){
+					inPlayH.remove(currPiece);
+				}
+				else if (inPlayV.contains(currPiece)){
+					inPlayV.remove(currPiece);
+				}
+			}
+			else{
+				currPiece.setX(i+1);
+				boardContents[i+1][j] = currPiece;
+			}
+		}
+		boardContents[i][j] = null;
+		updateAllPieces();
+		System.out.println("printing our board below:");
+		for(int y=boardSize-1; y>=0; y--){
+			for(int x=0; x<boardSize; x++){
+				if (boardContents[x][y] instanceof HPiece){
+					System.out.print("H ");
+				}
+				else if (boardContents[x][y] instanceof VPiece){
+					System.out.print("V ");
+				}
+				else if (boardContents[x][y] instanceof BPiece){
+					System.out.print("B ");
+				}
+				else {
+					System.out.print("+ ");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("============================================================");
+		
+	}
 	
 	public ArrayList<HPiece> getInPlayH() {
 		return inPlayH;

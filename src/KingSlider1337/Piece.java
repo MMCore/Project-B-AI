@@ -60,7 +60,7 @@ public abstract class Piece {
 	 * Setter for X position.
 	 * @param positionY
 	 */
-	public void sexY(int positionY){
+	public void setY(int positionY){
 		this.positionY = positionY;
 	}
 	
