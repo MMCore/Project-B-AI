@@ -14,13 +14,13 @@ public class Board {
 	private int numLegalHMoves;
 	private int numLegalVMoves;
 	private Piece[][] boardContents;
-	private ArrayList<Piece> inPlayH;
-	private ArrayList<Piece> inPlayV;
+	private ArrayList<HPiece> inPlayH;
+	private ArrayList<VPiece> inPlayV;
 	
 	
 	public Board(int dimensions, String board_input) {
-		inPlayH = new ArrayList<Piece>();
-		inPlayV = new ArrayList<Piece>();
+		inPlayH = new ArrayList<HPiece>();
+		inPlayV = new ArrayList<VPiece>();
 		boardSize = dimensions;
 		fillBoard(board_input);
 	}
@@ -36,12 +36,12 @@ public class Board {
 			for(int i=0; i<boardSize; i++){
 				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2);
 				if (pieceType == 'H'){
-					Piece piece = new HPiece(i,j);
+					HPiece piece = new HPiece(i,j);
 					boardContents[i][j] = piece;
 					inPlayH.add(piece);	
 				}
 				else if (pieceType  == 'V'){
-					Piece piece = new VPiece(i,j);
+					VPiece piece = new VPiece(i,j);
 					boardContents[i][j] = piece;
 					inPlayV.add(piece);
 				}
@@ -86,7 +86,15 @@ public class Board {
 	public int getNumLegalVMoves() {
 		return numLegalVMoves;
 	}
+	
+	
+	public ArrayList<HPiece> getInPlayH() {
+		return inPlayH;
+	}
 
+	public ArrayList<VPiece> getInPlayV() {
+		return inPlayV;
+	}
 
 
 }

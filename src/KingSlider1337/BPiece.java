@@ -16,8 +16,8 @@ public class BPiece extends Piece{
 
 	@Override
 	public int updateLegalMoves(Piece[][] boardContents, int boardSize) {
-		ArrayList<Point> movableBoardPositions = new ArrayList<Point>();
-		this.movableBoardPositions = movableBoardPositions;
+		ArrayList<DestinationPoint> movableBoardPositions = new ArrayList<DestinationPoint>();
+		this.movablePositions = movableBoardPositions;
 		return 0; 
 	}
 
