@@ -15,7 +15,7 @@ public class Board {
 	private int boardSize;
 	private int numLegalHMoves;
 	private int numLegalVMoves;
-	private Piece[][] boardContents;
+	private static Piece[][] boardContents;
 	private ArrayList<HPiece> inPlayH;
 	private ArrayList<VPiece> inPlayV;
 	
@@ -92,51 +92,65 @@ public class Board {
 
 	public void movePiece(int i, int j, Move.Direction d){
 		Piece currPiece = boardContents[i][j];
-		
-		System.out.println("moving");
 		if (d==Move.Direction.UP){
-			System.out.println("trying up");
 			if ((j+1)==boardSize){
-				if (inPlayH.contains(boardContents[i][j])){
-					inPlayH.remove(boardContents[i][j]);
+				if (inPlayH.contains(currPiece)){
+					inPlayH.remove(currPiece);
 				}
-				else if (inPlayV.contains(boardContents[i][j])){
-					inPlayV.remove(boardContents[i][j]);
+				else if (inPlayV.contains(currPiece)){
+					inPlayV.remove(currPiece);
 				}
 			}
 			else{
-				
-				boardContents[i][j+1] = boardContents[i][j];
-				boardContents[i][j+1].setY(j+1);
+				currPiece.setY(j+1);
+				boardContents[i][j+1] = currPiece;
 			}
 		}
 		else if (d==Move.Direction.DOWN){
-			System.out.println("trying down");
-			boardContents[i][j-1] = boardContents[i][j];
-			boardContents[i][j-1].setY(j-1);
+			currPiece.setY(j-1);
+			boardContents[i][j-1] = currPiece;
 		}
 		else if (d==Move.Direction.LEFT){
-			System.out.println("trying left");
-			boardContents[i-1][j] = boardContents[i][j];
-			boardContents[i-1][j].setX(i-1);
+			currPiece.setX(i-1);
+			boardContents[i-1][j] = currPiece;
 		}
 		else if (d==Move.Direction.RIGHT){
-			System.out.println("trying right");
 			if ((i+1)==boardSize){
-				if (inPlayH.contains(boardContents[i][j])){
-					inPlayH.remove(boardContents[i][j]);
+				if (inPlayH.contains(currPiece)){
+					inPlayH.remove(currPiece);
 				}
-				else if (inPlayV.contains(boardContents[i][j])){
-					inPlayV.remove(boardContents[i][j]);
+				else if (inPlayV.contains(currPiece)){
+					inPlayV.remove(currPiece);
 				}
 			}
 			else{
-				boardContents[i+1][j] = boardContents[i][j];
-				boardContents[i+1][j].setX(i+1);
+				currPiece.setX(i+1);
+				boardContents[i+1][j] = currPiece;
 			}
 		}
-		System.out.println("moved");
 		boardContents[i][j] = null;
+		updateAllPieces();
+		System.out.println("printing our board below:");
+		for(int y=boardSize-1; y>=0; y--){
+			for(int x=0; x<boardSize; x++){
+				if (boardContents[x][y] instanceof HPiece){
+					System.out.print("H ");
+				}
+				else if (boardContents[x][y] instanceof VPiece){
+					System.out.print("V ");
+				}
+				else if (boardContents[x][y] instanceof BPiece){
+					System.out.print("B ");
+				}
+				else {
+					System.out.print("+ ");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("============================================================");
+		
 	}
 	
 	public ArrayList<HPiece> getInPlayH() {
