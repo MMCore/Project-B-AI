@@ -2,6 +2,8 @@ package KingSlider1337;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import aiproj.slider.Move;
+
 
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948)
@@ -14,13 +16,13 @@ public class Board {
 	private int numLegalHMoves;
 	private int numLegalVMoves;
 	private Piece[][] boardContents;
-	private ArrayList<Piece> inPlayH;
-	private ArrayList<Piece> inPlayV;
+	private ArrayList<HPiece> inPlayH;
+	private ArrayList<VPiece> inPlayV;
 	
 	
 	public Board(int dimensions, String board_input) {
-		inPlayH = new ArrayList<Piece>();
-		inPlayV = new ArrayList<Piece>();
+		inPlayH = new ArrayList<HPiece>();
+		inPlayV = new ArrayList<VPiece>();
 		boardSize = dimensions;
 		fillBoard(board_input);
 	}
@@ -34,14 +36,14 @@ public class Board {
 		char pieceType;
 		for(int j=boardSize-1; j>=0; j--){
 			for(int i=0; i<boardSize; i++){
-				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2);
+				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2); //TO-DO clean up magic numbers
 				if (pieceType == 'H'){
-					Piece piece = new HPiece(i,j);
+					HPiece piece = new HPiece(i,j);
 					boardContents[i][j] = piece;
 					inPlayH.add(piece);	
 				}
 				else if (pieceType  == 'V'){
-					Piece piece = new VPiece(i,j);
+					VPiece piece = new VPiece(i,j);
 					boardContents[i][j] = piece;
 					inPlayV.add(piece);
 				}
@@ -85,6 +87,45 @@ public class Board {
 	 */
 	public int getNumLegalVMoves() {
 		return numLegalVMoves;
+	}
+	
+	public void movePiece(int i, int j, Move.Direction d){
+		if (d==Move.Direction.UP){
+			if ((j+1)==boardSize){
+				if (inPlayH.contains(boardContents[i][j])){
+					inPlayH.remove(boardContents[i][j]);
+				}
+				else if (inPlayV.contains(boardContents[i][j])){
+					inPlayV.remove(boardContents[i][j]);
+				}
+			}
+			else{
+				boardContents[i][j+1] = boardContents[i][j];
+			}
+			boardContents[i][j] = null;
+		}
+		else if (d==Move.Direction.DOWN){
+			boardContents[i][j-1] = boardContents[i][j];
+			boardContents[i][j] = null;
+		}
+		else if (d==Move.Direction.LEFT){
+			boardContents[i-1][j] = boardContents[i][j];
+			boardContents[i][j] = null;
+		}
+		else if (d==Move.Direction.RIGHT){
+			if ((i+1)==boardSize){
+				if (inPlayH.contains(boardContents[i][j])){
+					inPlayH.remove(boardContents[i][j]);
+				}
+				else if (inPlayV.contains(boardContents[i][j])){
+					inPlayV.remove(boardContents[i][j]);
+				}
+			}
+			else{
+				boardContents[i+1][j] = boardContents[i][j];
+			}
+			boardContents[i][j] = null;
+		}
 	}
 
 
