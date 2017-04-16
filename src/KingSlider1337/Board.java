@@ -16,8 +16,8 @@ public class Board {
 	private int numLegalHMoves;
 	private int numLegalVMoves;
 	private static Piece[][] boardContents;
-	private ArrayList<HPiece> inPlayH;
-	private ArrayList<VPiece> inPlayV;
+	private static ArrayList<HPiece> inPlayH;
+	private static ArrayList<VPiece> inPlayV;
 	
 	
 	public Board(int dimensions, String board_input) {
