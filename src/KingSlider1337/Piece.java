@@ -7,17 +7,19 @@ import java.util.ArrayList;
  */
 public abstract class Piece {
 	
+	
+	
 	private int positionX;
 	private int positionY;
-	public ArrayList<Point> movableBoardPositions;
-	
-	
+	protected ArrayList<DestinationPoint> movablePositions;
+
+
 	public Piece(int positionX, int positionY){
 		this.positionX = positionX;
 		this.positionY = positionY;
 	}
 	
-	
+
 	/**
 	 * Abstract function that gets implemented by children of this class.
 	 * The function updates the movableBoardPositions for the piece that
@@ -58,9 +60,17 @@ public abstract class Piece {
 	 * Setter for X position.
 	 * @param positionY
 	 */
-	public void sexY(int positionY){
+	public void setY(int positionY){
 		this.positionY = positionY;
 	}
 	
+	
+	public ArrayList<DestinationPoint> getMovablePositions() {
+		return movablePositions;
+	}
 
+	
+
+	
+	
 }

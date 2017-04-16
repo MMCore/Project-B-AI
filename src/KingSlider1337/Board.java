@@ -89,8 +89,13 @@ public class Board {
 		return numLegalVMoves;
 	}
 	
+
 	public void movePiece(int i, int j, Move.Direction d){
+		Piece currPiece = boardContents[i][j];
+		
+		System.out.println("moving");
 		if (d==Move.Direction.UP){
+			System.out.println("trying up");
 			if ((j+1)==boardSize){
 				if (inPlayH.contains(boardContents[i][j])){
 					inPlayH.remove(boardContents[i][j]);
@@ -100,19 +105,23 @@ public class Board {
 				}
 			}
 			else{
+				
 				boardContents[i][j+1] = boardContents[i][j];
+				boardContents[i][j+1].setY(j+1);
 			}
-			boardContents[i][j] = null;
 		}
 		else if (d==Move.Direction.DOWN){
+			System.out.println("trying down");
 			boardContents[i][j-1] = boardContents[i][j];
-			boardContents[i][j] = null;
+			boardContents[i][j-1].setY(j-1);
 		}
 		else if (d==Move.Direction.LEFT){
+			System.out.println("trying left");
 			boardContents[i-1][j] = boardContents[i][j];
-			boardContents[i][j] = null;
+			boardContents[i-1][j].setX(i-1);
 		}
 		else if (d==Move.Direction.RIGHT){
+			System.out.println("trying right");
 			if ((i+1)==boardSize){
 				if (inPlayH.contains(boardContents[i][j])){
 					inPlayH.remove(boardContents[i][j]);
@@ -123,11 +132,20 @@ public class Board {
 			}
 			else{
 				boardContents[i+1][j] = boardContents[i][j];
+				boardContents[i+1][j].setX(i+1);
 			}
-			boardContents[i][j] = null;
 		}
+		System.out.println("moved");
+		boardContents[i][j] = null;
+	}
+	
+	public ArrayList<HPiece> getInPlayH() {
+		return inPlayH;
 	}
 
+	public ArrayList<VPiece> getInPlayV() {
+		return inPlayV;
+	}
 
 
 }

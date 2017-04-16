@@ -10,23 +10,51 @@ import aiproj.slider.Move;
  * This is the Game class. The main function of the program is run from here.
  *  
  */
-public class KingSlider1337p14y3r implements SliderPlayer {
+
+public class KingSlider1337p14y3r implements SliderPlayer  {
 	
-	private Board board;
+	/**
+	 *  A board is initialised. Legal HPiece moves and legal VPiece moves available on this board are then printed.
+	 */
+	
 	private char player;
+	private Board gameBoard;
 	
-	public void init(int dimension, String board, char player){
-		this.board = new Board(dimension, board);
-		this.board.updateAllPieces();
+	
+	@Override
+	public void init(int dimension, String board, char player) {
+		this.gameBoard = new Board(dimension, board);
 		this.player = player;
+		gameBoard.updateAllPieces();
+		
 	}
 
-	public void update(Move move){
-		board.movePiece(move.i, move.j, move.d);
+	@Override
+	public void update(Move move) {
+		if (move == null){
+			System.out.println("attempting an invalid move");
+		}
+		else{
+			System.out.println(move.toString());
+			gameBoard.movePiece(move.i, move.j, move.d);
+		}
 	}
-	
-	public Move move(){
-		return null;
+
+	@Override
+	public Move move() {
+		
+		MoveStrategy playerStrategy;
+
+		if(player == 'H'){
+			playerStrategy = new PlayerHStrategy();
+		}else if(player == 'V'){
+			playerStrategy = new PlayerVStrategy();
+		}else{
+			System.out.println("Invalid player provided");
+			return null;
+		}
+		
+		return playerStrategy.makeMove(gameBoard);
 	}
 	
 
