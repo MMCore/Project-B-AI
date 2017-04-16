@@ -1,4 +1,4 @@
-package Slider;
+package KingSlider1337;
 import java.util.ArrayList;
 
 /**

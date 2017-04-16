@@ -1,4 +1,4 @@
-package Slider;
+package KingSlider1337;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -64,16 +64,10 @@ public class Board {
 		
 		for (Piece piece: inPlayH){
 			numLegalHMoves += piece.updateLegalMoves(boardContents, boardSize);
-			System.out.print(piece.getX()); // DEBUG PRINT STATEMENTS
-			System.out.print(piece.getY());
-			System.out.println(piece.updateLegalMoves(boardContents, boardSize));
 		}
 		
 		for (Piece piece: inPlayV){
 			numLegalVMoves += piece.updateLegalMoves(boardContents, boardSize);
-			System.out.print(piece.getX()); // DEBUG PRINT STATEMENTS
-			System.out.print(piece.getY());
-			System.out.println(piece.updateLegalMoves(boardContents, boardSize));
 		}
 	}
 	

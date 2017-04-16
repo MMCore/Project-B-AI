@@ -1,11 +1,11 @@
-package Slider;
+package KingSlider1337;
 
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948) 
  * This is the Game class. The main function of the program is run from here.
  *  
  */
-public class Game {
+public class KingSlider1337p14y3r {
 	
 	/**
 	 *  A board is initialised. Legal HPiece moves and legal VPiece moves available on this board are then printed.

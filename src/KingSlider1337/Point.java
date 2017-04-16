@@ -1,4 +1,4 @@
-package Slider;
+package KingSlider1337;
 
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948)
