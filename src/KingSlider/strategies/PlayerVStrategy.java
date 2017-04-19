@@ -1,5 +1,7 @@
-package KingSlider1337;
+package KingSlider.strategies;
 
+import KingSlider.board.Board;
+import KingSlider.board.VPiece;
 import aiproj.slider.Move;
 
 public class PlayerVStrategy implements MoveStrategy {

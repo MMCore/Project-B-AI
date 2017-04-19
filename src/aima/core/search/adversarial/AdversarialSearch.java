@@ -1,3 +1,7 @@
+/* Code extacted from aima java github repo:
+ * https://github.com/aimacode/aima-java
+ */
+
 package aima.core.search.adversarial;
 
 import aima.core.search.framework.Metrics;

@@ -1,0 +1,49 @@
+6
++ + + + + B
++ + B + + H
++ B V B + H
++ + + B + H
++ + + + + H
++ + + + + H
+numLegalHMoves:5
+numlegalVMoves:0
+
+
+
+6
++ V V V V B
++ + + + + H
++ B V B + H
++ + + B + H
++ + + + + H
++ + + + + H
+
+numLegalHMoves:5
+numlegalVMoves:6
+
+4
++ V V +
++ H H +
++ + + H
++ V + +
+
+numLegalHMoves:6
+numlegalVMoves:7
+
+5
+V V B + H
++ + B + +
++ H V + B
++ B B + H
++ + B H +
+
+numLegalHMoves:7
+numlegalVMoves:3
+
+
+
+
+
+
+
+

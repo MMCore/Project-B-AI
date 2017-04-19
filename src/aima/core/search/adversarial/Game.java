@@ -1,3 +1,7 @@
+/* Code extacted from aima java github repo:
+ * https://github.com/aimacode/aima-java
+ */
+
 package aima.core.search.adversarial;
 
 import java.util.List;
@@ -41,7 +45,7 @@ public interface Game<STATE, ACTION, PLAYER> {
 
 	STATE getInitialState();
 
-	PLAYER[] getPlayers();
+	//PLAYER[] getPlayers();
 
 	PLAYER getPlayer(STATE state);
 

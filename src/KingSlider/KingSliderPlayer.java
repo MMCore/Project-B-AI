@@ -1,9 +1,13 @@
-package KingSlider1337;
+package KingSlider;
 
 import aiproj.slider.SliderPlayer;
+import KingSlider.board.Board;
+import KingSlider.strategies.MoveStrategy;
+import KingSlider.strategies.PlayerHStrategy;
+import KingSlider.strategies.PlayerVStrategy;
 import aiproj.slider.Move;
 
-// java -cp bin aiproj.slider.Referee 5 KingSlider1337.KingSlider1337p14y3r KingSlider1337.KingSlider1337p14y3r
+// java -cp bin aiproj.slider.Referee 5 KingSlider.KingSliderPlayer KingSlider.KingSliderPlayer
 
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948) 
@@ -11,16 +15,16 @@ import aiproj.slider.Move;
  *  
  */
 
-public class KingSlider1337p14y3r implements SliderPlayer  {
+public class KingSliderPlayer implements SliderPlayer  {
 	
 	/**
 	 *  A board is initialised. Legal HPiece moves and legal VPiece moves available on this board are then printed.
 	 */
 	
 	private char player;
-	private Board gameBoard;
+	private static Board gameBoard;
 	
-	
+
 	@Override
 	public void init(int dimension, String board, char player) {
 		this.gameBoard = new Board(dimension, board);
@@ -59,5 +63,11 @@ public class KingSlider1337p14y3r implements SliderPlayer  {
 		return playerStrategy.makeMove(gameBoard);
 	}
 	
+	
+	
+	public static Board getGameBoard() {
+		return gameBoard;
+	}
+
 
 }
