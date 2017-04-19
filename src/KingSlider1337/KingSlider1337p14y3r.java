@@ -38,6 +38,8 @@ public class KingSlider1337p14y3r implements SliderPlayer  {
 			System.out.println(move.toString());
 			gameBoard.movePiece(move.i, move.j, move.d);
 		}
+		
+		
 	}
 
 	@Override
