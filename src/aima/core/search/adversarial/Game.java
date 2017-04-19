@@ -6,6 +6,8 @@ package aima.core.search.adversarial;
 
 import java.util.List;
 
+import KingSlider.board.Board;
+
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
  * <br>
@@ -43,7 +45,7 @@ import java.util.List;
  */
 public interface Game<STATE, ACTION, PLAYER> {
 
-	STATE getInitialState();
+	//STATE getInitialState();
 
 	//PLAYER[] getPlayers();
 
@@ -56,4 +58,6 @@ public interface Game<STATE, ACTION, PLAYER> {
 	boolean isTerminal(STATE state);
 
 	double getUtility(STATE state, PLAYER player);
+
+	void printGame(STATE state);
 }

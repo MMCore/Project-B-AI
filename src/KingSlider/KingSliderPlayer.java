@@ -2,9 +2,14 @@ package KingSlider;
 
 import aiproj.slider.SliderPlayer;
 import KingSlider.board.Board;
+import KingSlider.board.HPiece;
+import KingSlider.board.Piece;
+import KingSlider.board.VPiece;
 import KingSlider.strategies.MoveStrategy;
 import KingSlider.strategies.PlayerHStrategy;
 import KingSlider.strategies.PlayerVStrategy;
+import aima.core.search.adversarial.Game;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aiproj.slider.Move;
 
 // java -cp bin aiproj.slider.Referee 5 KingSlider.KingSliderPlayer KingSlider.KingSliderPlayer
@@ -23,6 +28,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	
 	private char player;
 	private static Board gameBoard;
+	static Board testBoard; 
 	
 
 	@Override
@@ -37,6 +43,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	public void update(Move move) {
 		if (move == null){
 			System.out.println("attempting an invalid move");
+			
 		}
 		else{
 			System.out.println(move.toString());
@@ -44,27 +51,47 @@ public class KingSliderPlayer implements SliderPlayer  {
 		}
 		
 		
+		
 	}
 
 	@Override
 	public Move move() {
 		
-		MoveStrategy playerStrategy;
+		Move nextMove;
+		testBoard = new Board(gameBoard);	
+		System.out.println("Player moviing:" + testBoard.getPlayertoMove());
+		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(), 0, 2,1);
+			
+		nextMove = searchFunction.makeDecision(testBoard);
 
-		if(player == 'H'){
-			playerStrategy = new PlayerHStrategy();
-		}else if(player == 'V'){
-			playerStrategy = new PlayerVStrategy();
-		}else{
-			System.out.println("Invalid player provided");
-			return null;
-		}
+		return nextMove;
 		
-		return playerStrategy.makeMove(gameBoard);
+			/*
+			if(player == 'H'){
+				
+				for(HPiece piece : gameBoard.getInPlayH()){
+					if(piece.getMovablePositions().size() != 0){
+						nextMove = new Move(piece.getX(),piece.getY(),piece.getMovablePositions().get(0).getDirection());
+						return nextMove;
+					}
+				}
+			}else{
+				for(VPiece piece : gameBoard.getInPlayV()){
+					if(piece.getMovablePositions().size() != 0){
+						nextMove = new Move(piece.getX(),piece.getY(),piece.getMovablePositions().get(0).getDirection());
+						return nextMove;
+					}
+				}
+			}
+			
+	
+		return null;*/
 	}
 	
 	
-	
+
+
+
 	public static Board getGameBoard() {
 		return gameBoard;
 	}

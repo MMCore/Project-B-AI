@@ -6,22 +6,15 @@ import java.util.List;
 import KingSlider.board.Board;
 import KingSlider.board.DestinationPoint;
 import KingSlider.board.HPiece;
-import KingSlider.board.Piece;
 import KingSlider.board.VPiece;
+import KingSlider.strategies.MoveStrategy;
+import KingSlider.strategies.PlayerHStrategy;
+import KingSlider.strategies.PlayerVStrategy;
 import aima.core.search.adversarial.Game;
 import aiproj.slider.Move;
 
 public class SliderGame implements Game<Board, Move, Character> {
 
-	private static Board testBoard;
-	
-	
-
-	@Override
-	public Board getInitialState() {
-		// TODO Auto-generated method stub
-		return testBoard = new Board(KingSliderPlayer.getGameBoard());
-	}
 
 	@Override
 	public Character getPlayer(Board state) {
@@ -34,17 +27,23 @@ public class SliderGame implements Game<Board, Move, Character> {
 		
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
-		if(testBoard.getPlayertoMove() == 'H'){
+		if(state.getPlayertoMove() == 'H'){
+			state.setPlayertoMove('V');
+		}else{
+			state.setPlayertoMove('H');
+		}
+		
+		if(state.getPlayertoMove() == 'H'){
 			for(HPiece piece : state.getInPlayH()){
 				for(DestinationPoint point : piece.getMovablePositions()){
-					Move newMove = new Move(point.getX(),point.getY(),point.getDirection());
+					Move newMove = new Move(piece.getX(),piece.getY(),point.getDirection());
 					moves.add(newMove);
 				}
 			}
 		}else{
 			for(VPiece piece : state.getInPlayV()){
 				for(DestinationPoint point : piece.getMovablePositions()){
-					Move newMove = new Move(point.getX(),point.getY(),point.getDirection());
+					Move newMove = new Move(piece.getX(),piece.getY(),point.getDirection());
 					moves.add(newMove);
 				}
 			}
@@ -55,18 +54,16 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public Board getResult(Board state, Move action) {
-		testBoard.movePiece(action.i, action.j, action.d);
-		if(testBoard.getPlayertoMove() == 'H'){
-			testBoard.setPlayertoMove('V');
-		}else{
-			testBoard.setPlayertoMove('H');
-		}
-		return testBoard;
+		
+		System.out.println("We are trying to do " + action);
+		state.movePiece(action.i,action.j, action.d);
+		
+		return state;
 	}
 
 	@Override
 	public boolean isTerminal(Board state) {
-		if(testBoard.getInPlayH().isEmpty() || testBoard.getInPlayV().isEmpty()){
+		if(state.getInPlayH().isEmpty() || state.getInPlayV().isEmpty()){
 			return true;
 		}
 		
@@ -75,8 +72,21 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public double getUtility(Board state, Character player) {
-		// TODO Auto-generated method stub
+		
+		MoveStrategy strategy;
+		
+		if(player == 'H'){
+			strategy = new PlayerHStrategy();
+		}else{
+			strategy = new PlayerVStrategy();
+		}
+		
 		return 1;
+	}
+	
+	@Override
+	public void printGame(Board state){
+		state.printBoard();
 	}
 
 

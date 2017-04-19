@@ -27,8 +27,8 @@ public class Board {
 	private int numLegalVMoves;
 	private Piece[][] boardContents;
 	private char playertoMove;
-	private  ArrayList<HPiece> inPlayH;
-	private  ArrayList<VPiece> inPlayV;
+	private ArrayList<HPiece> inPlayH;
+	private ArrayList<VPiece> inPlayV;
 	
 	
 	public Board(int dimensions, String board_input,char playertoMove) {
@@ -37,6 +37,7 @@ public class Board {
 		boardSize = dimensions;
 		fillBoard(board_input);
 		this.playertoMove = playertoMove;
+
 	}
 	
 	//Copy constructor
@@ -155,6 +156,13 @@ public class Board {
 		}
 		boardContents[i][j] = null;
 		updateAllPieces();
+		printBoard();
+
+		
+		
+	}
+	
+	public void printBoard(){
 		System.out.println("printing our board below:");
 		for(int y=boardSize-1; y>=0; y--){
 			for(int x=0; x<boardSize; x++){
@@ -175,7 +183,6 @@ public class Board {
 		}
 		System.out.println();
 		System.out.println("============================================================");
-		
 	}
 	
 	public ArrayList<HPiece> getInPlayH() {
