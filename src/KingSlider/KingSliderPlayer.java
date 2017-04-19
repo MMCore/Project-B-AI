@@ -27,7 +27,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 
 	@Override
 	public void init(int dimension, String board, char player) {
-		this.gameBoard = new Board(dimension, board);
+		KingSliderPlayer.gameBoard = new Board(dimension, board,player);
 		this.player = player;
 		gameBoard.updateAllPieces();
 		

@@ -32,13 +32,13 @@ public class VPiece extends Piece {
 		//Checking if the V piece can move UP
 		if(currentPositionY + 1 != boardSize){
 			if(boardContents[currentPositionX][currentPositionY + 1] == null){
-				DestinationPoint legalPoint = new DestinationPoint(currentPositionX,currentPositionY + 1,Move.Direction.UP,false);
+				DestinationPoint legalPoint = new DestinationPoint(currentPositionX,currentPositionY + 1,Move.Direction.UP);
 				movablePositions.add(legalPoint);
 				totalLegalMoves++;
 
 			}
 		}else if(currentPositionY + 1 == boardSize){
-				DestinationPoint legalPoint = new DestinationPoint(currentPositionX,currentPositionY + 1,Move.Direction.UP,true);
+				DestinationPoint legalPoint = new DestinationPoint(currentPositionX,currentPositionY + 1,Move.Direction.UP);
 				movablePositions.add(legalPoint);
 				totalLegalMoves++;
 		}
@@ -46,7 +46,7 @@ public class VPiece extends Piece {
 		//Checking if the V piece can move RIGHT
 		if(currentPositionX + 1 != boardSize){
 			if(boardContents[currentPositionX + 1][currentPositionY] == null){
-				DestinationPoint legalPoint = new DestinationPoint(currentPositionX + 1,currentPositionY,Move.Direction.RIGHT,false);
+				DestinationPoint legalPoint = new DestinationPoint(currentPositionX + 1,currentPositionY,Move.Direction.RIGHT);
 				movablePositions.add(legalPoint);
 				totalLegalMoves++;
 
@@ -56,7 +56,7 @@ public class VPiece extends Piece {
 		//Checking if the V piece can move LEFT
 		if(currentPositionX - 1 != -1){
 			if(boardContents[currentPositionX - 1][currentPositionY] == null){
-				DestinationPoint legalPoint = new DestinationPoint(currentPositionX - 1,currentPositionY,Move.Direction.LEFT,false);
+				DestinationPoint legalPoint = new DestinationPoint(currentPositionX - 1,currentPositionY,Move.Direction.LEFT);
 				movablePositions.add(legalPoint);
 				totalLegalMoves++;
 

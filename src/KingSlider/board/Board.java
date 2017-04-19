@@ -8,23 +8,49 @@ import aiproj.slider.Move;
  * This is the Board class. It contains the current state of the game. 
  *
  */
+/**
+ * @author MM
+ *
+ */
+/**
+ * @author MM
+ *
+ */
+/**
+ * @author MM
+ *
+ */
 public class Board {
 	
 	private int boardSize;
 	private int numLegalHMoves;
 	private int numLegalVMoves;
 	private Piece[][] boardContents;
-
+	private char playertoMove;
 	private  ArrayList<HPiece> inPlayH;
 	private  ArrayList<VPiece> inPlayV;
 	
 	
-	public Board(int dimensions, String board_input) {
+	public Board(int dimensions, String board_input,char playertoMove) {
 		inPlayH = new ArrayList<HPiece>();
 		inPlayV = new ArrayList<VPiece>();
 		boardSize = dimensions;
 		fillBoard(board_input);
+		this.playertoMove = playertoMove;
 	}
+	
+	//Copy constructor
+	public Board(Board initialBoardState){
+		this.boardSize = initialBoardState.boardSize;
+		this.numLegalHMoves = initialBoardState.numLegalHMoves;
+		this.numLegalVMoves = initialBoardState.numLegalVMoves;
+		this.boardContents = initialBoardState.boardContents;
+		this.playertoMove = initialBoardState.playertoMove;
+		this.inPlayH = initialBoardState.inPlayH;
+		this.inPlayV = initialBoardState.inPlayV;
+	}
+	
+	
 	
 	/**
 	 *  This function reads input from the standard inputstream and creates a 2D array representation of the boardstate.
@@ -163,6 +189,14 @@ public class Board {
 	
 	public Piece[][] getBoardContents() {
 		return boardContents;
+	}
+	
+	public char getPlayertoMove() {
+		return playertoMove;
+	}
+
+	public void setPlayertoMove(char playertoMove) {
+		this.playertoMove = playertoMove;
 	}
 
 }

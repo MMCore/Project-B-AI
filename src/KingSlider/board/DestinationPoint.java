@@ -9,16 +9,16 @@ import aiproj.slider.Move;
  */
 public class DestinationPoint {
 	
-	private boolean offBoard;
+
 	private Move.Direction direction;
 	private int X;
 	private int Y;
 	
-	DestinationPoint(int X,int Y,Move.Direction direction, boolean offBoard){
+	DestinationPoint(int X,int Y,Move.Direction direction){
 		this.X = X;
 		this.Y = Y;
 		this.direction = direction;
-		this.offBoard = offBoard;
+
 	}
 	
 	/**
@@ -42,9 +42,6 @@ public class DestinationPoint {
 	}
 	
 	
-	public boolean isOffBoard() {
-		return offBoard;
-	}
-	
+
 
 }
