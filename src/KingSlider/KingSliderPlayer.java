@@ -27,14 +27,18 @@ public class KingSliderPlayer implements SliderPlayer  {
 	 */
 	
 	private char player;
-	private static Board gameBoard;
-	static Board testBoard; 
+	public static Board gameBoard;
+	 Board testBoard; 
+	private String board;
+	private int dimension;
 	
 
 	@Override
 	public void init(int dimension, String board, char player) {
-		KingSliderPlayer.gameBoard = new Board(dimension, board,player);
+		KingSliderPlayer.gameBoard = new Board(dimension, board, player);
 		this.player = player;
+		this.dimension = dimension;
+		this.board = board;
 		gameBoard.updateAllPieces();
 		
 	}
@@ -58,8 +62,12 @@ public class KingSliderPlayer implements SliderPlayer  {
 	public Move move() {
 		
 		Move nextMove;
-		testBoard = new Board(gameBoard);	
-		System.out.println("Player moviing:" + testBoard.getPlayertoMove());
+		testBoard = new Board(dimension, board, player);	
+		testBoard.updateAllPieces();
+		
+		System.out.println("Current gameboard");
+		gameBoard.printBoard();
+		System.out.println("Player moving:" + testBoard.getPlayertoMove());
 		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(), 0, 2,1);
 			
 		nextMove = searchFunction.makeDecision(testBoard);
