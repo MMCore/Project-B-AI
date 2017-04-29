@@ -49,8 +49,9 @@ public class SliderGame implements Game<Board, Move, Character> {
 	@Override
 	public Board getResult(Board state, Move action) {
 		
-		System.out.println("We are trying to do " + action);
-		Board newState = new Board(state);
+		//System.out.println("We are trying to do " + action);
+		Board newState = new Board(state.getBoardSize(), state.getBoardString(), state.getPlayertoMove());
+		newState.updateAllPieces();
 		newState.movePiece(action.i,action.j, action.d);
 		
 		return newState;

@@ -156,7 +156,7 @@ public class Board {
 		}
 		boardContents[i][j] = null;
 		updateAllPieces();
-		printBoard();
+		//printBoard();
 
 		
 		
@@ -205,5 +205,32 @@ public class Board {
 	public void setPlayertoMove(char playertoMove) {
 		this.playertoMove = playertoMove;
 	}
+	
+	public String getBoardString(){
+		String board_string = "";
+		for(int j=boardSize-1; j>=0; j--){
+			for(int i=0; i<boardSize; i++){
+				if (boardContents[i][j] instanceof HPiece){
+					board_string += "H ";
+				}
+				else if (boardContents[i][j] instanceof VPiece){
+					board_string += "V ";
+				}
+				else if (boardContents[i][j] instanceof BPiece){
+					board_string += "B ";
+				}
+				else{
+					board_string += "+ ";
+				}
+			}
+		}
+		return board_string;
+	}
+
+	public int getBoardSize() {
+		return boardSize;
+	}
+	
+	
 
 }

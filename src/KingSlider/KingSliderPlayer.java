@@ -28,7 +28,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	
 	private char player;
 	public static Board gameBoard;
-	 Board testBoard; 
+	private Board testBoard; 
 	private String board;
 	private int dimension;
 	
@@ -46,7 +46,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	@Override
 	public void update(Move move) {
 		if (move == null){
-			System.out.println("attempting an invalid move");
+			System.out.println("Turn passed.");
 			
 		}
 		else{
@@ -62,11 +62,8 @@ public class KingSliderPlayer implements SliderPlayer  {
 	public Move move() {
 		
 		Move nextMove;
-		testBoard = new Board(dimension, board, player);	
+		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
 		testBoard.updateAllPieces();
-		
-		System.out.println("Current gameboard");
-		gameBoard.printBoard();
 		System.out.println("Player moving:" + testBoard.getPlayertoMove());
 		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(), 0, 2,1);
 			
