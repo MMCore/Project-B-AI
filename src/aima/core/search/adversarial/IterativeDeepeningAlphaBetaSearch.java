@@ -12,7 +12,7 @@ import aima.core.search.framework.Metrics;
 
 /**
  * Implements an iterative deepening Minimax search with alpha-beta pruning and
- * action ordering. Maximal computation time is specified in seconds. The
+ * action ordering. Maximal computation time is specified in milliseconds. The
  * algorithm is implemented as template method and can be configured and tuned
  * by subclassing.
  * 
@@ -56,7 +56,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 *            evaluation of non-terminal states and early termination in
 	 *            situations with a safe winner.
 	 * @param time
-	 *            Maximal computation time in seconds.
+	 *            Maximal computation time in milliseconds.
 	 */
 	public static <STATE, ACTION, PLAYER> IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
 			Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time) {
@@ -77,7 +77,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 *            evaluation of non-terminal states and early termination in
 	 *            situations with a safe winner.
 	 * @param time
-	 *            Maximal computation time in seconds.
+	 *            Maximal computation time in milliseconds.
 	 */
 	public IterativeDeepeningAlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax,
 			int time) {
@@ -247,8 +247,8 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 		private long duration;
 		private long startTime;
 
-		Timer(int maxSeconds) {
-			this.duration = 1000l * maxSeconds;
+		Timer(int maxMilliSeconds) {
+			this.duration = maxMilliSeconds;
 		}
 
 		void start() {
