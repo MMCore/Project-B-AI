@@ -7,6 +7,7 @@ package aima.core.search.adversarial;
 import java.util.ArrayList;
 import java.util.List;
 
+import KingSlider.KingSliderPlayer;
 import aima.core.search.framework.Metrics;
 
 /**
@@ -105,8 +106,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 		timer.start();
 		currDepthLimit = 0;
 		do {
-			System.out.println("Current depth: " + currDepthLimit);
-			System.out.println("Trying to move player: " + game.getPlayer(state));
+			System.out.println("Trying to move player: " + game.getPlayer(state)); // addition~~~~~
 			game.printGame(state); // addition~~~~~
 			incrementDepthLimit();
 			if (logEnabled)
@@ -114,9 +114,10 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 			heuristicEvaluationUsed = false;
 			ActionStore<ACTION> newResults = new ActionStore<ACTION>();
 			for (ACTION action : results) {
-				System.out.println(player);
-				System.out.println("Inside for loop");
-				System.out.println(action);
+				System.out.println(player); // addition~~~~~
+				System.out.println("Current depth: " + currDepthLimit); // addition~~~~~
+				System.out.println("Inside for loop"); // addition~~~~~
+				System.out.println(action); // addition~~~~~
 				double value = minValue(game.getResult(state, action), player, Double.NEGATIVE_INFINITY,
 						Double.POSITIVE_INFINITY, 1);
 				if (timer.timeOutOccured())

@@ -28,12 +28,6 @@ public class SliderGame implements Game<Board, Move, Character> {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		if(state.getPlayertoMove() == 'H'){
-			state.setPlayertoMove('V');
-		}else{
-			state.setPlayertoMove('H');
-		}
-		
-		if(state.getPlayertoMove() == 'H'){
 			for(HPiece piece : state.getInPlayH()){
 				for(DestinationPoint point : piece.getMovablePositions()){
 					Move newMove = new Move(piece.getX(),piece.getY(),point.getDirection());
@@ -56,9 +50,10 @@ public class SliderGame implements Game<Board, Move, Character> {
 	public Board getResult(Board state, Move action) {
 		
 		System.out.println("We are trying to do " + action);
-		state.movePiece(action.i,action.j, action.d);
+		Board newState = new Board(state);
+		newState.movePiece(action.i,action.j, action.d);
 		
-		return state;
+		return newState;
 	}
 
 	@Override
