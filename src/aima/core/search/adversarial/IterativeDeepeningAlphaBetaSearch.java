@@ -106,18 +106,18 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 		timer.start();
 		currDepthLimit = 0;
 		do {
-			System.out.println("Trying to move player: " + game.getPlayer(state)); // addition~~~~~
-			game.printGame(state); // addition~~~~~
+			//System.out.println("Trying to move player: " + game.getPlayer(state)); // addition~~~~~
+			//game.printGame(state); // addition~~~~~
 			incrementDepthLimit();
 			if (logEnabled)
 				logText = new StringBuffer("depth " + currDepthLimit + ": ");
 			heuristicEvaluationUsed = false;
 			ActionStore<ACTION> newResults = new ActionStore<ACTION>();
 			for (ACTION action : results) {
-				System.out.println(player); // addition~~~~~
-				System.out.println("Current depth: " + currDepthLimit); // addition~~~~~
-				System.out.println("Inside for loop"); // addition~~~~~
-				System.out.println(action); // addition~~~~~
+				//System.out.println(player); // addition~~~~~
+				//System.out.println("Current depth: " + currDepthLimit); // addition~~~~~
+				//System.out.println("Inside for loop"); // addition~~~~~
+				//System.out.println(action); // addition~~~~~
 				double value = minValue(game.getResult(state, action), player, Double.NEGATIVE_INFINITY,
 						Double.POSITIVE_INFINITY, 1);
 				if (timer.timeOutOccured())
