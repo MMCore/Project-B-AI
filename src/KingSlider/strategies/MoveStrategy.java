@@ -10,15 +10,12 @@ import aiproj.slider.Move;
 public interface MoveStrategy {
 	
 
-
 	/**
 	 * Starting game strategy uses
 	 * @param boardState
 	 * @return
 	 */
 	public Move startGameStrategy(Board boardState);
-	
-	
 	
 	
 	
@@ -46,12 +43,17 @@ public interface MoveStrategy {
 	public int totalBasicBlocks(Board boardState);
 	
 	
+	/**
+	 * @param boardState
+	 * @return
+	 */
+	public int totalDiagonal(Board boardState);
 	
 	/**
 	 * @param boardState
 	 * @return
 	 */
-	public int totalDiagonalBlocks(Board boardState);
+	public int totalBeyondDiagonal(Board boardState);
 	
 	
 	

@@ -144,7 +144,12 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 				}
 			}
 		} while (!timer.timeOutOccured() && heuristicEvaluationUsed);
-		return results.get(0);
+		if (results.isEmpty()){
+			return null;
+		}
+		else{
+			return results.get(0);
+		}
 	}
 
 	// returns an utility value
@@ -215,11 +220,13 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	/**
 	 * Primitive operation which is used to stop iterative deepening search in
 	 * situations where a safe winner has been identified. This implementation
-	 * returns true if the given value (for the currently preferred action
-	 * result) is the highest or lowest utility value possible.
+	 * returns true if the given value is the highest utility value possible.
 	 */
 	protected boolean hasSafeWinner(double resultUtility) {
-		return resultUtility <= utilMin || resultUtility >= utilMax;
+		if(resultUtility >= utilMax){
+			System.out.println("SAFE WIN FOR: " + strategy.toString());
+		}
+		return resultUtility >= utilMax;
 	}
 
 	/**

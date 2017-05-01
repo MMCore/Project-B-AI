@@ -163,7 +163,6 @@ public class Board {
 	}
 	
 	public void printBoard(){
-		System.out.println("printing our board below:");
 		for(int y=boardSize-1; y>=0; y--){
 			for(int x=0; x<boardSize; x++){
 				if (boardContents[x][y] instanceof HPiece){
@@ -182,7 +181,6 @@ public class Board {
 			System.out.println();
 		}
 		System.out.println();
-		System.out.println("============================================================");
 	}
 	
 	public ArrayList<HPiece> getInPlayH() {

@@ -2,9 +2,6 @@ package KingSlider;
 
 import aiproj.slider.SliderPlayer;
 import KingSlider.board.Board;
-import KingSlider.board.HPiece;
-import KingSlider.board.Piece;
-import KingSlider.board.VPiece;
 import KingSlider.strategies.MoveStrategy;
 import KingSlider.strategies.PlayerHStrategy;
 import KingSlider.strategies.PlayerVStrategy;
@@ -82,10 +79,10 @@ public class KingSliderPlayer implements SliderPlayer  {
 		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
 		testBoard.updateAllPieces();
 		System.out.println("Player moving:" + testBoard.getPlayertoMove());
-		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(),strategy, 0, 2, 100);
+		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(),strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100);
 			
 		nextMove = searchFunction.makeDecision(testBoard);
-
+		
 		return nextMove;
 		
 			/*
@@ -116,6 +113,8 @@ public class KingSliderPlayer implements SliderPlayer  {
 	public static Board getGameBoard() {
 		return gameBoard;
 	}
+	
+	
 
 
 }
