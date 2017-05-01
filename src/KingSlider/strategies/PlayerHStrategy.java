@@ -39,7 +39,7 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 
-
+////////////////////NOOB//////////////////////
 
 	
 }
