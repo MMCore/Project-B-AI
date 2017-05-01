@@ -7,6 +7,7 @@ package aima.core.search.adversarial;
 import java.util.List;
 
 import KingSlider.board.Board;
+import KingSlider.strategies.MoveStrategy;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
@@ -58,6 +59,13 @@ public interface Game<STATE, ACTION, PLAYER> {
 	boolean isTerminal(STATE state);
 
 	double getUtility(STATE state, PLAYER player);
-
+	
 	void printGame(STATE state);
+
+	/**
+	 * Middle game strategy involves the utilisation of the following evaluation
+	 * function which is used alongside alpha-beta pruning.
+	 * @return int
+	 */
+	int evaluateState(STATE state, MoveStrategy strategy);
 }

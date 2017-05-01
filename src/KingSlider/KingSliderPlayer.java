@@ -29,17 +29,22 @@ public class KingSliderPlayer implements SliderPlayer  {
 	private char player;
 	public static Board gameBoard;
 	private Board testBoard; 
-	private String board;
 	private int dimension;
+	private MoveStrategy strategy;
+	private boolean isStartGame;
 	
-
 	@Override
 	public void init(int dimension, String board, char player) {
 		KingSliderPlayer.gameBoard = new Board(dimension, board, player);
 		this.player = player;
 		this.dimension = dimension;
-		this.board = board;
 		gameBoard.updateAllPieces();
+		isStartGame = false;
+		if(player == 'H'){
+			strategy = new PlayerHStrategy();
+		}else{
+			strategy = new PlayerVStrategy();
+		}
 		
 	}
 
@@ -62,10 +67,22 @@ public class KingSliderPlayer implements SliderPlayer  {
 	public Move move() {
 		
 		Move nextMove;
+		
+		
+		//While we decide to make a start game strategy
+		if(isStartGame){
+			nextMove = strategy.startGameStrategy(gameBoard);		
+			if(nextMove == null){
+				isStartGame = false;
+			}
+		}
+		
+		
+		
 		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
 		testBoard.updateAllPieces();
 		System.out.println("Player moving:" + testBoard.getPlayertoMove());
-		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(), 0, 2, 100);
+		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(),strategy, 0, 2, 100);
 			
 		nextMove = searchFunction.makeDecision(testBoard);
 
@@ -92,10 +109,9 @@ public class KingSliderPlayer implements SliderPlayer  {
 	
 		return null;*/
 	}
-	
-	
 
-
+		
+	
 
 	public static Board getGameBoard() {
 		return gameBoard;

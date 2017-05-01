@@ -1,5 +1,7 @@
 /* Code extacted from aima java github repo:
  * https://github.com/aimacode/aima-java
+ * We have added some out own adaption to suite our
+ * strategic design.
  */
 
 package aima.core.search.adversarial;
@@ -7,7 +9,7 @@ package aima.core.search.adversarial;
 import java.util.ArrayList;
 import java.util.List;
 
-import KingSlider.KingSliderPlayer;
+import KingSlider.strategies.MoveStrategy;
 import aima.core.search.framework.Metrics;
 
 /**
@@ -39,6 +41,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 												// have been evaluated.
 	private Timer timer;
 	private boolean logEnabled;
+	private MoveStrategy strategy;
 
 	private Metrics metrics = new Metrics();
 
@@ -59,8 +62,8 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 *            Maximal computation time in milliseconds.
 	 */
 	public static <STATE, ACTION, PLAYER> IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
-			Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time) {
-		return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, utilMin, utilMax, time);
+			Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy,double utilMin, double utilMax, int time) {
+		return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, strategy, utilMin, utilMax, time);
 	}
 
 	/**
@@ -68,6 +71,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 * 
 	 * @param game
 	 *            The game.
+	 * @param strategy 
 	 * @param utilMin
 	 *            Utility value of worst state for this player. Supports
 	 *            evaluation of non-terminal states and early termination in
@@ -79,12 +83,13 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 * @param time
 	 *            Maximal computation time in milliseconds.
 	 */
-	public IterativeDeepeningAlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax,
+	public IterativeDeepeningAlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy, double utilMin, double utilMax,
 			int time) {
 		this.game = game;
 		this.utilMin = utilMin;
 		this.utilMax = utilMax;
 		this.timer = new Timer(time);
+		this.strategy = strategy;
 	}
 
 	public void setLogEnabled(boolean b) {
@@ -228,7 +233,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 			return game.getUtility(state, player);
 		} else {
 			heuristicEvaluationUsed = true;
-			return (utilMin + utilMax) / 2;
+			return game.evaluateState(state, strategy);
 		}
 	}
 

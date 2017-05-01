@@ -14,7 +14,11 @@ import aima.core.search.adversarial.Game;
 import aiproj.slider.Move;
 
 public class SliderGame implements Game<Board, Move, Character> {
-
+	
+	final int ENDLINE_PIECES_WEIGHT = 20;
+	final int MINIMUM_MOVES_TO_WIN_WEIGHT = -10;
+	final int TOTAL_BASIC_BLOCKS_WEIGHT = 20;
+	final int TOTAL_DIAGONAL_BLOCKS_WEIGHT = 10;
 
 	@Override
 	public Character getPlayer(Board state) {
@@ -69,21 +73,45 @@ public class SliderGame implements Game<Board, Move, Character> {
 	@Override
 	public double getUtility(Board state, Character player) {
 		
-		MoveStrategy strategy;
-		
-		if(player == 'H'){
-			strategy = new PlayerHStrategy();
+		//Returns the utility of the terminal state
+		if(player == 'H' ){
+			if(state.getInPlayH().isEmpty()){
+				return Double.POSITIVE_INFINITY;
+			}
 		}else{
-			strategy = new PlayerVStrategy();
+			if(state.getInPlayV().isEmpty()){
+				return Double.POSITIVE_INFINITY;
+			}
+			
 		}
-		
-		return 1;
+		return Double.NEGATIVE_INFINITY;
 	}
 	
+	
+	
+
 	@Override
 	public void printGame(Board state){
 		state.printBoard();
 	}
+
+	@Override
+	public int evaluateState(Board state, MoveStrategy strategy) {
+		
+		
+		int endLinePieces = strategy.countEndlinePieces(state);
+		int minimumMovesToWin = strategy.minimumMovesToWin(state);
+		int totalBasicBlocks = strategy.totalBasicBlocks(state);
+		int totalDiagonal = strategy.totalDiagonalBlocks(state);
+		
+		return ENDLINE_PIECES_WEIGHT*endLinePieces + MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + 
+				TOTAL_BASIC_BLOCKS_WEIGHT* totalBasicBlocks + TOTAL_DIAGONAL_BLOCKS_WEIGHT*totalDiagonal;
+	}
+
+
+	
+	
+	
 
 
 
