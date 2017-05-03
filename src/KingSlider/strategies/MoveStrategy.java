@@ -40,7 +40,7 @@ public interface MoveStrategy {
 	 * @param boardState
 	 * @return
 	 */
-	public int totalBasicBlocks(Board boardState);
+	public int totalBlocks(Board boardState);
 	
 	
 	/**

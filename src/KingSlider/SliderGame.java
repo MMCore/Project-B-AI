@@ -19,7 +19,7 @@ public class SliderGame implements Game<Board, Move, Character> {
 	final int TOTAL_DIAGONAL_WEIGHT = 5;
 	final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 6;
 	
-	final boolean DEBUG_EVAL_FUNC = false;
+	private boolean debug = false;
 
 	@Override
 	public Character getPlayer(Board state) {
@@ -100,15 +100,13 @@ public class SliderGame implements Game<Board, Move, Character> {
 		
 		int endLinePieces = strategy.countEndlinePieces(state);
 		int minimumMovesToWin = strategy.minimumMovesToWin(state);
-		int totalBlocks = strategy.totalBasicBlocks(state);
+		int totalBlocks = strategy.totalBlocks(state);
 		int totalDiagonal = strategy.totalDiagonal(state);
 		int totalBeyondDiagonal = strategy.totalBeyondDiagonal(state);
 		
 		
-		if (DEBUG_EVAL_FUNC){
+		if (debug){
 			System.out.println("------------DEBUG EVAL------------");
-			System.out.println(strategy.toString());
-			state.printBoard();
 			System.out.println("ENDLINE_PIECES: " + endLinePieces);
 			System.out.println("MINIMUM_MOVES_TO_WIN: " + minimumMovesToWin);
 			System.out.println("TOTAL_BLOCKS: " + totalBlocks);
@@ -119,6 +117,10 @@ public class SliderGame implements Game<Board, Move, Character> {
 		
 		return ENDLINE_PIECES_WEIGHT*endLinePieces + MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + 
 				TOTAL_BLOCKS_WEIGHT* totalBlocks + TOTAL_DIAGONAL_WEIGHT*totalDiagonal + TOTAL_BEYOND_DIAGONAL_WEIGHT*totalBeyondDiagonal;
+	}
+	
+	public void setEvalDebug(boolean debugOn){
+		debug = debugOn;
 	}
 
 

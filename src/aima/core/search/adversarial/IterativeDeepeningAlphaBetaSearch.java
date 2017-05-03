@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import KingSlider.strategies.MoveStrategy;
+import KingSlider.strategies.PlayerHStrategy;
+import KingSlider.strategies.PlayerVStrategy;
 import aima.core.search.framework.Metrics;
+import aiproj.slider.Move;
 
 /**
  * Implements an iterative deepening Minimax search with alpha-beta pruning and
@@ -232,8 +235,7 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	/**
 	 * Primitive operation, which estimates the value for (not necessarily
 	 * terminal) states. This implementation returns the utility value for
-	 * terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
-	 * states. When overriding, first call the super implementation!
+	 * terminal states and a heuristically evaluated estimation for non-terminal states.
 	 */
 	protected double eval(STATE state, PLAYER player) {
 		if (game.isTerminal(state)) {
@@ -249,7 +251,30 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 * the original order (provided by the game).
 	 */
 	public List<ACTION> orderActions(STATE state, List<ACTION> actions, PLAYER player, int depth) {
-		return actions;
+		List<ACTION> forwardActions = new ArrayList<ACTION>(); // ADDITIONAL IMPLEMENTATION
+		List<ACTION> sideActions = new ArrayList<ACTION>();
+		List<ACTION> orderedActions = new ArrayList<ACTION>();
+		Move.Direction forward;
+		if (strategy instanceof PlayerHStrategy){
+			forward = Move.Direction.RIGHT;
+		}
+		else if (strategy instanceof PlayerVStrategy){
+			forward = Move.Direction.UP;
+		}
+		else {
+			return actions; // returns list as is if something goes wrong
+		}
+		for (ACTION action : actions) {
+			if (((Move)action).d == forward){
+				forwardActions.add(action);
+			}
+			else {
+				sideActions.add(action);
+			}
+		}
+		orderedActions.addAll(forwardActions);
+		orderedActions.addAll(sideActions);
+		return orderedActions;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////

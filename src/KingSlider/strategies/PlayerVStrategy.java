@@ -4,8 +4,6 @@ import KingSlider.board.BPiece;
 import KingSlider.board.Board;
 import KingSlider.board.HPiece;
 import KingSlider.board.Piece;
-import KingSlider.board.VPiece;
-import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aiproj.slider.Move;
 
 public class PlayerVStrategy implements MoveStrategy {
@@ -21,7 +19,7 @@ public class PlayerVStrategy implements MoveStrategy {
 	public int countEndlinePieces(Board boardState) {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayV()){
-			if (piece.getX() == boardState.getBoardSize() - 1){
+			if (piece.getY() == boardState.getBoardSize() - 1){
 				count++;
 			}
 		}
@@ -44,7 +42,7 @@ public class PlayerVStrategy implements MoveStrategy {
 	}
 
 	@Override
-	public int totalBasicBlocks(Board boardState) {
+	public int totalBlocks(Board boardState) {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayV()){
 			if ((piece.getX()!=0) && (boardState.getBoardContents()[piece.getX()-1][piece.getY()] instanceof HPiece)){

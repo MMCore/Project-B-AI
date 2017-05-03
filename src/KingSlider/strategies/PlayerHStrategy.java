@@ -42,7 +42,7 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 	@Override
-	public int totalBasicBlocks(Board boardState) {
+	public int totalBlocks(Board boardState) {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayH()){
 			if ((piece.getY()!=0) && (boardState.getBoardContents()[piece.getX()][piece.getY()-1] instanceof VPiece)){

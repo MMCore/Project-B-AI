@@ -12,14 +12,6 @@ import aiproj.slider.Move;
  * @author MM
  *
  */
-/**
- * @author MM
- *
- */
-/**
- * @author MM
- *
- */
 public class Board {
 	
 	private int boardSize;

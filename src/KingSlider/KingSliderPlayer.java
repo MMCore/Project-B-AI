@@ -5,7 +5,6 @@ import KingSlider.board.Board;
 import KingSlider.strategies.MoveStrategy;
 import KingSlider.strategies.PlayerHStrategy;
 import KingSlider.strategies.PlayerVStrategy;
-import aima.core.search.adversarial.Game;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aiproj.slider.Move;
 
@@ -74,6 +73,9 @@ public class KingSliderPlayer implements SliderPlayer  {
 			}
 		}
 		
+		//DEBUG eval values
+		SliderGame game = new SliderGame();
+		System.out.println("Pre-move evaluation score: " + game.evaluateState(gameBoard, strategy) + " for " + strategy.toString());
 		
 		
 		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
@@ -82,6 +84,14 @@ public class KingSliderPlayer implements SliderPlayer  {
 		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(),strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100);
 			
 		nextMove = searchFunction.makeDecision(testBoard);
+		
+		Board prediction = new Board(dimension, gameBoard.getBoardString(), player);
+		if (nextMove!=null){
+			prediction.movePiece(nextMove.i, nextMove.j, nextMove.d);
+			System.out.println(nextMove.toString());
+		}
+		game.setEvalDebug(true);
+		System.out.println("Post-move evaluation score: " + game.evaluateState(prediction, strategy) + " for " + strategy.toString());
 		
 		return nextMove;
 		
