@@ -8,10 +8,6 @@ import aiproj.slider.Move;
  * This is the Board class. It contains the current state of the game. 
  *
  */
-/**
- * @author MM
- *
- */
 public class Board {
 	
 	private int boardSize;
@@ -23,7 +19,7 @@ public class Board {
 	private ArrayList<VPiece> inPlayV;
 	
 	
-	public Board(int dimensions, String board_input,char playertoMove) {
+	public Board(int dimensions, String board_input, char playertoMove) {
 		inPlayH = new ArrayList<HPiece>();
 		inPlayV = new ArrayList<VPiece>();
 		boardSize = dimensions;
@@ -32,29 +28,22 @@ public class Board {
 
 	}
 	
-	//Copy constructor
-	public Board(Board initialBoardState){
-		this.boardSize = initialBoardState.boardSize;
-		this.numLegalHMoves = initialBoardState.numLegalHMoves;
-		this.numLegalVMoves = initialBoardState.numLegalVMoves;
-		this.boardContents = initialBoardState.boardContents;
-		this.playertoMove = initialBoardState.playertoMove;
-		this.inPlayH = initialBoardState.inPlayH;
-		this.inPlayV = initialBoardState.inPlayV;
-	}
-	
 	
 	
 	/**
 	 *  This function reads input from the standard inputstream and creates a 2D array representation of the boardstate.
-	 *  All game pieces are initialised and added to the board. If the piece is a player piece it is also added to the appropriate arraylist.
+	 *  All game pieces are initialised and added to the board and added to the appropriate arraylist.
 	 */
 	public void fillBoard(String board_input){
 		boardContents = new Piece[boardSize][boardSize];
 		char pieceType;
+		
 		for(int j=boardSize-1; j>=0; j--){
 			for(int i=0; i<boardSize; i++){
-				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2); //TO-DO clean up magic numbers
+				// finds next board-cell value
+				pieceType = board_input.charAt((boardSize-j-1)*(boardSize*2) + i*2);
+				
+				// checks what piece occupies the cell
 				if (pieceType == 'H'){
 					HPiece piece = new HPiece(i,j);
 					boardContents[i][j] = piece;
@@ -108,49 +97,48 @@ public class Board {
 	}
 	
 
-	public void movePiece(int i, int j, Move.Direction d){
-		Piece currPiece = boardContents[i][j];
+	
+	/**
+	 * Updates the board to reflect a new piece movement
+	 * @param x  x-coordinate of the piece
+	 * @param y  y-coordinate of the piece
+	 * @param d  direction of movement
+	 */
+	public void movePiece(int x, int y, Move.Direction d){
+		//identifies the piece being moved
+		Piece currPiece = boardContents[x][y];
+		
+		// moves the piece inside the 2D array
 		if (d==Move.Direction.UP){
-			if ((j+1)==boardSize){
-				if (inPlayH.contains(currPiece)){
-					inPlayH.remove(currPiece);
-				}
-				else if (inPlayV.contains(currPiece)){
-					inPlayV.remove(currPiece);
-				}
+			if ((y+1)==boardSize){
+				inPlayV.remove(currPiece);
 			}
 			else{
-				currPiece.setY(j+1);
-				boardContents[i][j+1] = currPiece;
+				currPiece.setY(y+1);
+				boardContents[x][y+1] = currPiece;
 			}
 		}
 		else if (d==Move.Direction.DOWN){
-			currPiece.setY(j-1);
-			boardContents[i][j-1] = currPiece;
+			currPiece.setY(y-1);
+			boardContents[x][y-1] = currPiece;
 		}
 		else if (d==Move.Direction.LEFT){
-			currPiece.setX(i-1);
-			boardContents[i-1][j] = currPiece;
+			currPiece.setX(x-1);
+			boardContents[x-1][y] = currPiece;
 		}
 		else if (d==Move.Direction.RIGHT){
-			if ((i+1)==boardSize){
-				if (inPlayH.contains(currPiece)){
-					inPlayH.remove(currPiece);
-				}
-				else if (inPlayV.contains(currPiece)){
-					inPlayV.remove(currPiece);
-				}
+			if ((x+1)==boardSize){
+				inPlayH.remove(currPiece);
 			}
 			else{
-				currPiece.setX(i+1);
-				boardContents[i+1][j] = currPiece;
+				currPiece.setX(x+1);
+				boardContents[x+1][y] = currPiece;
 			}
 		}
-		boardContents[i][j] = null;
-		updateAllPieces();
-		//printBoard();
-
+		boardContents[x][y] = null;
 		
+		// updates the arraylists
+		updateAllPieces();
 		
 	}
 	
@@ -175,27 +163,52 @@ public class Board {
 		System.out.println();
 	}
 	
+	/**
+	 * Getter for inPlayH
+	 * @return an arraylist of in-play H-Pieces
+	 */
 	public ArrayList<HPiece> getInPlayH() {
 		return inPlayH;
 	}
 
+	/**
+	 * Getter for inPlayV
+	 * @return an arraylist of in-play V-Pieces
+	 */
 	public ArrayList<VPiece> getInPlayV() {
 		return inPlayV;
 	}
 	
-	
+	/**
+	 * Getter for boardContents
+	 * @return a 2D array of Pieces  representing the board's contents
+	 */
 	public Piece[][] getBoardContents() {
 		return boardContents;
 	}
 	
+	
+	/**
+	 * Getter for playerToMove
+	 * @return a char showing which player's turn it is
+	 */
 	public char getPlayertoMove() {
 		return playertoMove;
 	}
 
+	/**
+	 * Setter for playerToMove
+	 * @param playertoMove  a char representing the player being set
+	 */
 	public void setPlayertoMove(char playertoMove) {
 		this.playertoMove = playertoMove;
 	}
 	
+	
+	/**
+	 * Returns a string representation of the boardContents 2D array
+	 * @return a string representing the current board state
+	 */
 	public String getBoardString(){
 		String board_string = "";
 		for(int j=boardSize-1; j>=0; j--){
@@ -217,6 +230,10 @@ public class Board {
 		return board_string;
 	}
 
+	/**
+	 * A getter for boardSize
+	 * @return the size of the board
+	 */
 	public int getBoardSize() {
 		return boardSize;
 	}

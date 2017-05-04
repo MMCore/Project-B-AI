@@ -18,9 +18,7 @@ import aiproj.slider.Move;
 
 public class KingSliderPlayer implements SliderPlayer  {
 	
-	/**
-	 *  A board is initialised. Legal HPiece moves and legal VPiece moves available on this board are then printed.
-	 */
+	final static int ITERATIVE_TIME_OUT = 100;
 	
 	private char player;
 	public static Board gameBoard;
@@ -62,8 +60,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	@Override
 	public Move move() {
 		
-		Move nextMove;
-		
+		Move nextMove = null;
 		
 		//While we decide to make a start game strategy
 		if(isStartGame){
@@ -72,59 +69,16 @@ public class KingSliderPlayer implements SliderPlayer  {
 				isStartGame = false;
 			}
 		}
-		
-		//DEBUG eval values
-		SliderGame game = new SliderGame();
-		System.out.println("Pre-move evaluation score: " + game.evaluateState(gameBoard, strategy) + " for " + strategy.toString());
-		
-		
-		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
-		testBoard.updateAllPieces();
-		System.out.println("Player moving:" + testBoard.getPlayertoMove());
-		IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>(new SliderGame(),strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100);
-			
-		nextMove = searchFunction.makeDecision(testBoard);
-		
-		Board prediction = new Board(dimension, gameBoard.getBoardString(), player);
-		if (nextMove!=null){
-			prediction.movePiece(nextMove.i, nextMove.j, nextMove.d);
-			System.out.println(nextMove.toString());
+		if(!isStartGame){
+			testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
+			testBoard.updateAllPieces();
+			IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = 
+					new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>
+						(new SliderGame(), strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, ITERATIVE_TIME_OUT);
+			nextMove = searchFunction.makeDecision(testBoard);
 		}
-		game.setEvalDebug(true);
-		System.out.println("Post-move evaluation score: " + game.evaluateState(prediction, strategy) + " for " + strategy.toString());
-		
 		return nextMove;
-		
-			/*
-			if(player == 'H'){
-				
-				for(HPiece piece : gameBoard.getInPlayH()){
-					if(piece.getMovablePositions().size() != 0){
-						nextMove = new Move(piece.getX(),piece.getY(),piece.getMovablePositions().get(0).getDirection());
-						return nextMove;
-					}
-				}
-			}else{
-				for(VPiece piece : gameBoard.getInPlayV()){
-					if(piece.getMovablePositions().size() != 0){
-						nextMove = new Move(piece.getX(),piece.getY(),piece.getMovablePositions().get(0).getDirection());
-						return nextMove;
-					}
-				}
-			}
-			
-	
-		return null;*/
 	}
-
-		
-	
-
-	public static Board getGameBoard() {
-		return gameBoard;
-	}
-	
-	
 
 
 }

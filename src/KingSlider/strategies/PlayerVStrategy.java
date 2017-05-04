@@ -6,6 +6,11 @@ import KingSlider.board.HPiece;
 import KingSlider.board.Piece;
 import aiproj.slider.Move;
 
+/**
+ * @author Nguyen Ho (760259) and Marko Mihic (762948) 
+ * This is V-player's MoveStrategy implementation. It contains the functions needed to determine V-player's next move.
+ *  
+ */
 public class PlayerVStrategy implements MoveStrategy {
 
 	@Override
@@ -31,6 +36,7 @@ public class PlayerVStrategy implements MoveStrategy {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayV()){
 			count += boardState.getBoardSize() - piece.getY();
+			// checks if a block piece is in front
 			for (int j=piece.getY()+1; j<boardState.getBoardSize(); j++){
 				if (boardState.getBoardContents()[piece.getX()][j] instanceof BPiece){
 					count++;

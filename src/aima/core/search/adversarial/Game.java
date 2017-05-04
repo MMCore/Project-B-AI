@@ -1,12 +1,13 @@
 /* Code extacted from aima java github repo:
  * https://github.com/aimacode/aima-java
+ * 
+ * Adapted for use by Marko Mihic and Nguyen Ho
  */
 
 package aima.core.search.adversarial;
 
 import java.util.List;
 
-import KingSlider.board.Board;
 import KingSlider.strategies.MoveStrategy;
 
 /**
@@ -46,26 +47,58 @@ import KingSlider.strategies.MoveStrategy;
  */
 public interface Game<STATE, ACTION, PLAYER> {
 
-	//STATE getInitialState();
-
-	//PLAYER[] getPlayers();
-
+	/**
+	 * Determines which player's turn it is
+	 * @param state  the current game state
+	 * @return		 the next player to move
+	 */
 	PLAYER getPlayer(STATE state);
 
+	/**
+	 * Returns a list of valid actions that can be performed on a give state
+	 * @param state  the current game state
+	 * @return       a list of valid actions
+	 */
 	List<ACTION> getActions(STATE state);
 
+	/**
+	 * Returns the resultant state after an action is completed.
+	 * @param state	  the current game state
+	 * @param action  the action performed
+	 * @return		  the resultant game state
+	 */
 	STATE getResult(STATE state, ACTION action);
 
+	/**
+	 * Checks whether a state is terminal
+	 * @param state  a game state
+	 * @return       <code>true</code> if the user is a member of the group;
+	 *         		 <code>false</code> otherwise
+	 */
 	boolean isTerminal(STATE state);
 
+	/**
+	 * Calculates the utility of a terminal state
+	 * 
+	 * @param state   a game state
+	 * @param player  the player being evaluated
+	 * @return        the state's utility
+	 */
 	double getUtility(STATE state, PLAYER player);
 	
+	/**
+	 * Prints out a game state
+	 * 
+	 * @param state  a game state
+	 */
 	void printGame(STATE state);
 
 	/**
-	 * Middle game strategy involves the utilisation of the following evaluation
-	 * function which is used alongside alpha-beta pruning.
-	 * @return int
+	 * Calculates an estimation of the numeric value of a given state using a given strategy
+	 * 
+	 * @param  state     a game state
+	 * @param  strategy  the evaluation strategy
+	 * @return           estimated value of a game state
 	 */
 	int evaluateState(STATE state, MoveStrategy strategy);
 }

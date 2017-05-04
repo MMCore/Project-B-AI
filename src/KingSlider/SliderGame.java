@@ -11,15 +11,24 @@ import KingSlider.strategies.MoveStrategy;
 import aima.core.search.adversarial.Game;
 import aiproj.slider.Move;
 
+
+/**
+ * @author Nguyen Ho (760259) and Marko Mihic (762948)
+ * This is the SliderGame class. It is an implementation of an adapted version of the aima library Game class. 
+ *
+ */
 public class SliderGame implements Game<Board, Move, Character> {
 	
-	final int ENDLINE_PIECES_WEIGHT = 2;
+	// the set of weights used in evaluateState()
+	final int ENDLINE_PIECES_WEIGHT = 3;
 	final int MINIMUM_MOVES_TO_WIN_WEIGHT = -9;
-	final int TOTAL_BLOCKS_WEIGHT = 8;
-	final int TOTAL_DIAGONAL_WEIGHT = 5;
-	final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 6;
+	final int TOTAL_BLOCKS_WEIGHT = 2;
+	final int TOTAL_DIAGONAL_WEIGHT = 4;
+	final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 5;
 	
-	private boolean debug = false;
+	// the utility of losing and winning terminal states
+	final int MIN_UTIL = -1000;
+	final int MAX_UTIL = 1000;
 
 	@Override
 	public Character getPlayer(Board state) {
@@ -30,7 +39,7 @@ public class SliderGame implements Game<Board, Move, Character> {
 	public List<Move> getActions(Board state) {
 		
 		ArrayList<Move> moves = new ArrayList<Move>();
-		
+		// finds valid H-moves
 		if(state.getPlayertoMove() == 'H'){
 			for(HPiece piece : state.getInPlayH()){
 				for(DestinationPoint point : piece.getMovablePositions()){
@@ -38,7 +47,9 @@ public class SliderGame implements Game<Board, Move, Character> {
 					moves.add(newMove);
 				}
 			}
-		}else{
+		}
+		// finds valid V-moves
+		else{
 			for(VPiece piece : state.getInPlayV()){
 				for(DestinationPoint point : piece.getMovablePositions()){
 					Move newMove = new Move(piece.getX(),piece.getY(),point.getDirection());
@@ -52,8 +63,6 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public Board getResult(Board state, Move action) {
-		
-		//System.out.println("We are trying to do " + action);
 		Board newState = new Board(state.getBoardSize(), state.getBoardString(), state.getPlayertoMove());
 		newState.updateAllPieces();
 		newState.movePiece(action.i,action.j, action.d);
@@ -72,22 +81,21 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public double getUtility(Board state, Character player) {
-		
-		//Returns the utility of the terminal state
-		if(KingSliderPlayer.getGameBoard().getPlayertoMove() == 'H' ){
+		// checks if winning state
+		if(player == 'H'){
 			if(state.getInPlayH().isEmpty()){
-				return Double.POSITIVE_INFINITY;
+				return MAX_UTIL;
 			}
-		}else{
+		}
+		else{
 			if(state.getInPlayV().isEmpty()){
-				return Double.POSITIVE_INFINITY;
+				return MAX_UTIL;
 			}
 			
 		}
-		return Double.NEGATIVE_INFINITY;
+		
+		return MIN_UTIL;
 	}
-	
-	
 	
 
 	@Override
@@ -104,23 +112,8 @@ public class SliderGame implements Game<Board, Move, Character> {
 		int totalDiagonal = strategy.totalDiagonal(state);
 		int totalBeyondDiagonal = strategy.totalBeyondDiagonal(state);
 		
-		
-		if (debug){
-			System.out.println("------------DEBUG EVAL------------");
-			System.out.println("ENDLINE_PIECES: " + endLinePieces);
-			System.out.println("MINIMUM_MOVES_TO_WIN: " + minimumMovesToWin);
-			System.out.println("TOTAL_BLOCKS: " + totalBlocks);
-			System.out.println("TOTAL_DIAGONAL: " + totalDiagonal);
-			System.out.println("TOTAL_BEYOND_DIAGONAL: " + totalBeyondDiagonal);
-			System.out.println("------------END - DEBUG------------");
-		}
-		
 		return ENDLINE_PIECES_WEIGHT*endLinePieces + MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + 
 				TOTAL_BLOCKS_WEIGHT* totalBlocks + TOTAL_DIAGONAL_WEIGHT*totalDiagonal + TOTAL_BEYOND_DIAGONAL_WEIGHT*totalBeyondDiagonal;
-	}
-	
-	public void setEvalDebug(boolean debugOn){
-		debug = debugOn;
 	}
 
 
