@@ -7,6 +7,7 @@ import java.util.Map;
 import KingSlider.board.BPiece;
 import KingSlider.board.Board;
 import KingSlider.board.HPiece;
+import KingSlider.board.Piece;
 import KingSlider.board.VPiece;
 import KingSlider.board.VPiece;
 import aiproj.slider.Move;

@@ -18,7 +18,7 @@ import aiproj.slider.Move;
 
 public class KingSliderPlayer implements SliderPlayer  {
 	
-	final static int ITERATIVE_TIME_OUT = 100;
+	final static int ITERATIVE_TIME_OUT = 500;
 	
 	private char player;
 	public static Board gameBoard;
@@ -69,7 +69,6 @@ public class KingSliderPlayer implements SliderPlayer  {
 				isStartGame = false;
 			}
 			
-			return nextMove;
 		}
 		if(!isStartGame){
 			testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
