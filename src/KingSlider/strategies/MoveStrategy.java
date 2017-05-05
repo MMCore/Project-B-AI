@@ -12,12 +12,16 @@ public interface MoveStrategy {
 
 
 	/**
-	 * Starting game strategy uses
+	 * Starting game strategy for our agent. The agents attempts to select
+	 * moves that will a piece forward, such that it can block opponent pieces
+	 * along the diagonal. Pieces are strategically picked in order of priority,
+	 * i.e pieces that have to be moved urgently for blocking are chosen first. 
+	 * The method will return null if no good moves are possible. This will
+	 * lead to the end of the start game strategy.`
 	 * @param boardState
-	 * @return
+	 * @return Move
 	 */
 	public Move startGameStrategy(Board boardState);
-	
 	
 	
 	

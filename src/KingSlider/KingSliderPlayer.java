@@ -39,7 +39,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 		this.player = player;
 		this.dimension = dimension;
 		gameBoard.updateAllPieces();
-		isStartGame = false;
+		isStartGame = true;
 		if(player == 'H'){
 			strategy = new PlayerHStrategy();
 		}else{
@@ -75,10 +75,13 @@ public class KingSliderPlayer implements SliderPlayer  {
 			if(nextMove == null){
 				isStartGame = false;
 			}
+			
+			return nextMove;
 		}
 		
-		
-		
+		System.out.println("START GAME ENDED");
+		return null;
+		/*
 		testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
 		testBoard.updateAllPieces();
 		System.out.println("Player moving:" + testBoard.getPlayertoMove());

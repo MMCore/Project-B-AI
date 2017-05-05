@@ -29,27 +29,22 @@ public class Board {
 	private char playertoMove;
 	private ArrayList<HPiece> inPlayH;
 	private ArrayList<VPiece> inPlayV;
+	private ArrayList<BPiece> BPieces;
 	
-	
+
+
+
 	public Board(int dimensions, String board_input,char playertoMove) {
 		inPlayH = new ArrayList<HPiece>();
 		inPlayV = new ArrayList<VPiece>();
+		BPieces = new ArrayList<BPiece>();
 		boardSize = dimensions;
 		fillBoard(board_input);
 		this.playertoMove = playertoMove;
 
 	}
 	
-	//Copy constructor
-	public Board(Board initialBoardState){
-		this.boardSize = initialBoardState.boardSize;
-		this.numLegalHMoves = initialBoardState.numLegalHMoves;
-		this.numLegalVMoves = initialBoardState.numLegalVMoves;
-		this.boardContents = initialBoardState.boardContents;
-		this.playertoMove = initialBoardState.playertoMove;
-		this.inPlayH = initialBoardState.inPlayH;
-		this.inPlayV = initialBoardState.inPlayV;
-	}
+
 	
 	
 	
@@ -74,7 +69,9 @@ public class Board {
 					inPlayV.add(piece);
 				}
 				else if (pieceType == 'B'){
+					BPiece piece = new BPiece(i,j);
 					boardContents[i][j]  = new BPiece(i,j);
+					BPieces.add(piece);
 				}
 				else if (pieceType == '+'){
 					boardContents[i][j] = null;
@@ -193,6 +190,12 @@ public class Board {
 		return inPlayV;
 	}
 	
+	
+	public ArrayList<BPiece> getBPieces() {
+		return BPieces;
+	}
+
+
 	
 	public Piece[][] getBoardContents() {
 		return boardContents;
