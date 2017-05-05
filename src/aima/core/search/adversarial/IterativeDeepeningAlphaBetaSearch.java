@@ -1,7 +1,8 @@
-/* Code extacted from aima java github repo:
+/* Code extracted from aima java github repo:
  * https://github.com/aimacode/aima-java
- * We have added some out own adaption to suite our
- * strategic design.
+ * 
+ * Adapted by Marko Mihic and Nguyen Ho for Slider-Game use.
+ * 
  */
 
 package aima.core.search.adversarial;
@@ -10,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import KingSlider.strategies.MoveStrategy;
+import KingSlider.strategies.PlayerHStrategy;
+import KingSlider.strategies.PlayerVStrategy;
 import aima.core.search.framework.Metrics;
+import aiproj.slider.Move;
 
 /**
  * Implements an iterative deepening Minimax search with alpha-beta pruning and
@@ -111,18 +115,12 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 		timer.start();
 		currDepthLimit = 0;
 		do {
-			//System.out.println("Trying to move player: " + game.getPlayer(state)); // addition~~~~~
-			//game.printGame(state); // addition~~~~~
 			incrementDepthLimit();
 			if (logEnabled)
 				logText = new StringBuffer("depth " + currDepthLimit + ": ");
 			heuristicEvaluationUsed = false;
 			ActionStore<ACTION> newResults = new ActionStore<ACTION>();
 			for (ACTION action : results) {
-				//System.out.println(player); // addition~~~~~
-				//System.out.println("Current depth: " + currDepthLimit); // addition~~~~~
-				//System.out.println("Inside for loop"); // addition~~~~~
-				//System.out.println(action); // addition~~~~~
 				double value = minValue(game.getResult(state, action), player, Double.NEGATIVE_INFINITY,
 						Double.POSITIVE_INFINITY, 1);
 				if (timer.timeOutOccured())
@@ -144,7 +142,12 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 				}
 			}
 		} while (!timer.timeOutOccured() && heuristicEvaluationUsed);
-		return results.get(0);
+		if (results.isEmpty()){
+			return null;
+		}
+		else{
+			return results.get(0);
+		}
 	}
 
 	// returns an utility value
@@ -215,22 +218,23 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	/**
 	 * Primitive operation which is used to stop iterative deepening search in
 	 * situations where a safe winner has been identified. This implementation
-	 * returns true if the given value (for the currently preferred action
-	 * result) is the highest or lowest utility value possible.
+	 * returns true if the given value is the highest utility value possible.
 	 */
 	protected boolean hasSafeWinner(double resultUtility) {
-		return resultUtility <= utilMin || resultUtility >= utilMax;
+		if(resultUtility >= utilMax){
+			System.out.println("SAFE WIN FOR: " + strategy.toString());
+		}
+		return resultUtility >= utilMax;
 	}
 
 	/**
 	 * Primitive operation, which estimates the value for (not necessarily
-	 * terminal) states. This implementation returns the utility value for
-	 * terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
-	 * states. When overriding, first call the super implementation!
+	 * terminal) states. This implementation returns the utility value + a heuristically evaluated estimation for
+	 * terminal states and just a heuristically evaluated estimation for non-terminal states.
 	 */
 	protected double eval(STATE state, PLAYER player) {
 		if (game.isTerminal(state)) {
-			return game.getUtility(state, player);
+			return game.getUtility(state, player) + game.evaluateState(state, strategy);
 		} else {
 			heuristicEvaluationUsed = true;
 			return game.evaluateState(state, strategy);
@@ -238,11 +242,46 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	}
 
 	/**
-	 * Primitive operation for action ordering. This implementation preserves
-	 * the original order (provided by the game).
+	 * Sorts a list of actions to ensure all forward movements are at the front of the queue
+	 *
+	 * @param state    the current game state
+	 * @param actions  the list of actions to be ordered
+	 * @param player   the player who's turn it is
+	 * @param depth    the current search depth
+	 * @return		   an ordered list of actions
 	 */
 	public List<ACTION> orderActions(STATE state, List<ACTION> actions, PLAYER player, int depth) {
-		return actions;
+		List<ACTION> forwardActions = new ArrayList<ACTION>();
+		List<ACTION> sideActions = new ArrayList<ACTION>();
+		List<ACTION> orderedActions = new ArrayList<ACTION>();
+		Move.Direction forward;
+		
+		// checks which direction is forward
+		if (strategy instanceof PlayerHStrategy){
+			forward = Move.Direction.RIGHT;
+		}
+		else if (strategy instanceof PlayerVStrategy){
+			forward = Move.Direction.UP;
+		}
+		else {
+			return actions; // returns list as is if something goes wrong
+		}
+		
+		// separates lists into forward and non-forward actions
+		for (ACTION action : actions) {
+			if (((Move)action).d == forward){
+				forwardActions.add(action);
+			}
+			else {
+				sideActions.add(action);
+			}
+		}
+		
+		// joins both lists together
+		orderedActions.addAll(forwardActions);
+		orderedActions.addAll(sideActions);
+		
+		return orderedActions;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
