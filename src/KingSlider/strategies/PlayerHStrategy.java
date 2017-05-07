@@ -241,10 +241,7 @@ public class PlayerHStrategy implements MoveStrategy {
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
 		
-		if (boardContents[boardSize-1][boardSize-1] == null){
-			return 0;
-		}
-		else if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece) || (boardContents[boardSize-1][boardSize-2] instanceof HPiece)){
+		if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece) || (boardContents[boardSize-1][boardSize-2] instanceof HPiece)){
 			for (int y=boardSize-2; y>=boardSize-3; y--){
 				for (int x=boardSize-1; x>y; x--){
 					if (boardContents[x][y] instanceof VPiece){
@@ -257,12 +254,56 @@ public class PlayerHStrategy implements MoveStrategy {
 		for (int x=boardSize-2; x>=boardSize-3; x--){
 			for (int y=boardSize-1; y>x; y--){
 				if (boardContents[x][y] instanceof HPiece){
-					positionScore -= 2;
+					for (int y2=boardSize-2; y2>=boardSize-3; y2--){
+						for (int x2=boardSize-1; x2>y2; x2--){
+							if (boardContents[x2][y2] instanceof VPiece){
+								positionScore -= 1;
+							}
+						}
+					}
 				}
 			}
 		}
 		
 		return positionScore;
+	}
+
+
+	@Override
+	public int trapCount(Board boardState) {
+		int count = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		for (Piece vpiece : boardState.getInPlayV()){
+			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() < boardSize-2)){
+				if ((boardContents[boardSize-1][vpiece.getY()+1] instanceof HPiece) && 
+						(boardContents[boardSize-2][vpiece.getY()] instanceof HPiece)){
+					count++;
+				}
+			}
+		}
+		
+		return count;
+	}
+
+
+	@Override
+	public int trappedCount(Board boardState) {
+		int count = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		for (Piece hpiece : boardState.getInPlayH()){
+			if ((hpiece.getY() == boardSize-1) && (hpiece.getX() < boardSize-2)){
+				if ((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) && 
+						(boardContents[hpiece.getX()+1][boardSize-1] instanceof VPiece)){
+					count++;
+				}
+			}
+		}
+		
+		return count;
 	}
 
 	

@@ -72,6 +72,10 @@ public interface MoveStrategy {
 
 	public int calculateSpecialBoardValue(Board boardState);
 	
+	public int trapCount(Board boardState);
+	
+	public int trappedCount(Board boardState);
+	
 	
 	
 }
