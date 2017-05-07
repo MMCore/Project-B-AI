@@ -21,14 +21,14 @@ public class SliderGame implements Game<Board, Move, Character> {
 	
 
 	// the set of weights used in evaluateState()
-	private static final int SPECIAL_BOARD_WEIGHT = 100;
-	private static final int ENDLINE_PIECES_WEIGHT = 3;
+	private static final int SPECIAL_BOARD_WEIGHT = 50;
+	private static final int ENDLINE_PIECES_WEIGHT = 5;
 	private static final int MINIMUM_MOVES_TO_WIN_WEIGHT = -9;
 	private static final int TOTAL_BLOCKS_WEIGHT = 2;
-	private static final int TOTAL_DIAGONAL_WEIGHT = 4;
-	private static final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 5;
-	private static final int TRAP_WEIGHT = 3;
-	private static final int IN_TRAP_WEIGHT = -10;
+	private static final int TOTAL_DIAGONAL_WEIGHT = 3;
+	private static final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 3;
+	private static final int TRAP_WEIGHT = 10;
+	private static final int IN_TRAP_WEIGHT = -500;
 	
 	
 	// the utility of losing and winning terminal states
@@ -68,7 +68,14 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public Board getResult(Board state, Move action) {
-		Board newState = new Board(state.getBoardSize(), state.getBoardString(), state.getPlayertoMove());
+		Board newState;
+		if (state.getPlayertoMove() == 'H'){
+			newState = new Board(state.getBoardSize(), state.getBoardString(), 'V');
+		}
+		else{
+			newState = new Board(state.getBoardSize(), state.getBoardString(), 'H');
+		}
+		
 		newState.updateAllPieces();
 		newState.movePiece(action.i,action.j, action.d);
 		
@@ -86,6 +93,7 @@ public class SliderGame implements Game<Board, Move, Character> {
 
 	@Override
 	public double getUtility(Board state, Character player) {
+		
 		// checks if winning state
 		if(player == 'H'){
 			if(state.getInPlayH().isEmpty()){
@@ -98,7 +106,6 @@ public class SliderGame implements Game<Board, Move, Character> {
 			}
 			
 		}
-		
 		return MIN_UTIL;
 	}
 	

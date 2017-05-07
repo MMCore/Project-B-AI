@@ -80,7 +80,9 @@ public class KingSliderPlayer implements SliderPlayer  {
 		}
 		if (testBoard!= null && nextMove!=null){
 			testBoard.movePiece(nextMove.i, nextMove.j, nextMove.d);
-		System.out.println("Special Val: "+strategy.calculateSpecialBoardValue(testBoard));
+			System.out.println("Trap Val: "+strategy.trapCount(testBoard));
+			System.out.println("Traped Val: "+strategy.trappedCount(testBoard));
+			
 		}
 		return nextMove;
 	}
