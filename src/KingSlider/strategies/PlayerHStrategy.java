@@ -203,6 +203,8 @@ public class PlayerHStrategy implements MoveStrategy {
 
 	@Override
 	public int calculateSpecialBoardValue(Board boardState) {
+		
+		// checks if board is special and if so, runs the appropriate calculation function
 		if (boardState.getBoardContents()[boardState.getBoardSize()-2][boardState.getBoardSize()-2] instanceof BPiece){
 			if (boardState.getBoardContents()[boardState.getBoardSize()-3][boardState.getBoardSize()-3] instanceof BPiece){
 				return calculateSpecialTwoBlock(boardState);
@@ -215,11 +217,13 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 
+	// calculates the value state of a board with a block piece on the second last top-right diagonal
 	private int calculateSpecialOneBlock(Board boardState) {
 		int positionScore = 0;
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
 		
+		// does nothing if there is no bottleneck caused by the top-right corner being occupied
 		if (boardContents[boardSize-1][boardSize-1] == null){
 			return 0;
 		}
@@ -227,7 +231,8 @@ public class PlayerHStrategy implements MoveStrategy {
 					(boardContents[boardSize-1][boardSize-2] instanceof VPiece)){
 			positionScore += 1;
 		}
-
+		
+		// negatively weights being trapped by the opponent to the left of the top-right corner
 		if (boardContents[boardSize-2][boardSize-1] instanceof HPiece){
 			positionScore -= 2;
 		}
@@ -236,11 +241,13 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 
+	// calculates the value state of a board with 2 block pieces before the top-right diagonal
 	private int calculateSpecialTwoBlock(Board boardState) {
 		int positionScore = 0;
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
 		
+		// positively weights trapping the opponent under the top-right corner
 		if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece) || (boardContents[boardSize-1][boardSize-2] instanceof HPiece)){
 			for (int y=boardSize-2; y>=boardSize-3; y--){
 				for (int x=boardSize-1; x>y; x--){
@@ -251,6 +258,7 @@ public class PlayerHStrategy implements MoveStrategy {
 			}
 		}
 
+		// negatively weights being trapped by the opponent to the left of the top-right corner
 		for (int x=boardSize-2; x>=boardSize-3; x--){
 			for (int y=boardSize-1; y>x; y--){
 				if (boardContents[x][y] instanceof HPiece){
