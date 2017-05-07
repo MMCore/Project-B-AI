@@ -78,6 +78,10 @@ public class KingSliderPlayer implements SliderPlayer  {
 						(new SliderGame(), strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, ITERATIVE_TIME_OUT);
 			nextMove = searchFunction.makeDecision(testBoard);
 		}
+		if (testBoard!= null && nextMove!=null){
+			testBoard.movePiece(nextMove.i, nextMove.j, nextMove.d);
+		System.out.println("Special Val: "+strategy.calculateSpecialBoardValue(testBoard));
+		}
 		return nextMove;
 	}
 

@@ -29,7 +29,6 @@ public class PlayerVStrategy implements MoveStrategy {
 		
 		if(boardState.getBPieces().isEmpty()){
 			VPieceNoBlock = boardState.getInPlayV();
-			System.out.println("EMPTYY");
 		//Finding all V pieces that do not have block in their way
 		}else{
 			for(VPiece vpiece : boardState.getInPlayV()){
@@ -190,6 +189,71 @@ public class PlayerVStrategy implements MoveStrategy {
 				}
 		}
 		return count;
+	}
+
+
+	@Override
+	public int calculateSpecialBoardValue(Board boardState) {
+		if (boardState.getBoardContents()[boardState.getBoardSize()-2][boardState.getBoardSize()-2] instanceof BPiece){
+			if (boardState.getBoardContents()[boardState.getBoardSize()-3][boardState.getBoardSize()-3] instanceof BPiece){
+				return calculateSpecialTwoBlock(boardState);
+			}
+			else{
+				return calculateSpecialOneBlock(boardState);
+			}
+		}
+		return 0;
+	}
+	
+	private int calculateSpecialOneBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		if (boardContents[boardSize-1][boardSize-1] == null){
+			return 0;
+		}
+		else if ((boardContents[boardSize-1][boardSize-1] instanceof VPiece) &&
+					(boardContents[boardSize-2][boardSize-1] instanceof HPiece)){
+			positionScore += 1;
+		}
+
+		if (boardContents[boardSize-1][boardSize-2] instanceof VPiece){
+			positionScore -= 2;
+		}
+		
+		return positionScore;
+	}
+
+
+	private int calculateSpecialTwoBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		if (boardContents[boardSize-1][boardSize-1] == null){
+			return 0;
+		}
+		else if ((boardContents[boardSize-1][boardSize-1] instanceof VPiece) || (boardContents[boardSize-2][boardSize-1] instanceof VPiece) ){
+			for (int x=boardSize-2; x>=boardSize-3; x--){
+				for (int y=boardSize-1; y>x; y--){
+					if (boardContents[x][y] instanceof HPiece){
+						positionScore += 1;
+					}
+				}
+			}
+		}
+
+		for (int y=boardSize-2; y>=boardSize-3; y--){
+			for (int x=boardSize-1; x>y; x--){
+				if (boardContents[x][y] instanceof VPiece){
+					positionScore -= 2;
+				}
+			}
+		}
+		
+		return positionScore;
+		
 	}
 
 

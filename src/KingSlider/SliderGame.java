@@ -19,6 +19,8 @@ import aiproj.slider.Move;
  */
 public class SliderGame implements Game<Board, Move, Character> {
 	
+	private static final int SPECIAL_BOARD_WEIGHT = 100;
+	
 	// the set of weights used in evaluateState()
 	final int ENDLINE_PIECES_WEIGHT = 3;
 	final int MINIMUM_MOVES_TO_WIN_WEIGHT = -9;
@@ -106,15 +108,19 @@ public class SliderGame implements Game<Board, Move, Character> {
 	@Override
 	public int evaluateState(Board state, MoveStrategy strategy) {
 		
+		int specialBoardOffset = strategy.calculateSpecialBoardValue(state);
 		int endLinePieces = strategy.countEndlinePieces(state);
 		int minimumMovesToWin = strategy.minimumMovesToWin(state);
 		int totalBlocks = strategy.totalBlocks(state);
 		int totalDiagonal = strategy.totalDiagonal(state);
 		int totalBeyondDiagonal = strategy.totalBeyondDiagonal(state);
 		
-		return ENDLINE_PIECES_WEIGHT*endLinePieces + MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + 
+		int stateValue = SPECIAL_BOARD_WEIGHT*specialBoardOffset + ENDLINE_PIECES_WEIGHT*endLinePieces + MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + 
 				TOTAL_BLOCKS_WEIGHT* totalBlocks + TOTAL_DIAGONAL_WEIGHT*totalDiagonal + TOTAL_BEYOND_DIAGONAL_WEIGHT*totalBeyondDiagonal;
+		
+		return stateValue;
 	}
+	
 
 
 	

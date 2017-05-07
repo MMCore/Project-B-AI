@@ -221,9 +221,6 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 * returns true if the given value is the highest utility value possible.
 	 */
 	protected boolean hasSafeWinner(double resultUtility) {
-		if(resultUtility >= utilMax){
-			System.out.println("SAFE WIN FOR: " + strategy.toString());
-		}
 		return resultUtility >= utilMax;
 	}
 

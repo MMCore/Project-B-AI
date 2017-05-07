@@ -68,6 +68,9 @@ public interface MoveStrategy {
 	 * @return			  number of pieces beyond the diagonal
 	 */
 	public int totalBeyondDiagonal(Board boardState);
+
+
+	public int calculateSpecialBoardValue(Board boardState);
 	
 	
 	

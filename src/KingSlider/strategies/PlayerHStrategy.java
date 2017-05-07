@@ -2,13 +2,11 @@ package KingSlider.strategies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import KingSlider.board.BPiece;
 import KingSlider.board.Board;
 import KingSlider.board.HPiece;
 import KingSlider.board.Piece;
-import KingSlider.board.VPiece;
 import KingSlider.board.VPiece;
 import aiproj.slider.Move;
 
@@ -200,6 +198,71 @@ public class PlayerHStrategy implements MoveStrategy {
 				}
 		}
 		return count;
+	}
+
+
+	@Override
+	public int calculateSpecialBoardValue(Board boardState) {
+		if (boardState.getBoardContents()[boardState.getBoardSize()-2][boardState.getBoardSize()-2] instanceof BPiece){
+			if (boardState.getBoardContents()[boardState.getBoardSize()-3][boardState.getBoardSize()-3] instanceof BPiece){
+				return calculateSpecialTwoBlock(boardState);
+			}
+			else{
+				return calculateSpecialOneBlock(boardState);
+			}
+		}
+		return 0;
+	}
+
+
+	private int calculateSpecialOneBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		if (boardContents[boardSize-1][boardSize-1] == null){
+			return 0;
+		}
+		else if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece)&&
+					(boardContents[boardSize-1][boardSize-2] instanceof VPiece)){
+			positionScore += 1;
+		}
+
+		if (boardContents[boardSize-2][boardSize-1] instanceof HPiece){
+			positionScore -= 2;
+		}
+		
+		return positionScore;
+	}
+
+
+	private int calculateSpecialTwoBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		if (boardContents[boardSize-1][boardSize-1] == null){
+			return 0;
+		}
+		else if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece) || (boardContents[boardSize-1][boardSize-2] instanceof HPiece)){
+			for (int y=boardSize-2; y>=boardSize-3; y--){
+				for (int x=boardSize-1; x>y; x--){
+					if (boardContents[x][y] instanceof VPiece){
+						positionScore += 1;
+					}
+				}
+			}
+		}
+
+		for (int x=boardSize-2; x>=boardSize-3; x--){
+			for (int y=boardSize-1; y>x; y--){
+				if (boardContents[x][y] instanceof HPiece){
+					positionScore -= 2;
+				}
+			}
+		}
+		
+		return positionScore;
 	}
 
 	
