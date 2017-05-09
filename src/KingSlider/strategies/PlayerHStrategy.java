@@ -175,25 +175,11 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 
-
-
-	@Override
-	public int totalDiagonal(Board boardState) {
-		int count = 0;
-		for (Piece piece: boardState.getInPlayH()){
-			if (piece.getX() == piece.getY()){
-				count++;
-				}
-		}
-		return count;
-	}
-
-
 	@Override
 	public int totalBeyondDiagonal(Board boardState) {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayH()){
-			if (piece.getX() > piece.getY()){
+			if (piece.getX() >= piece.getY()){
 				count++;
 				}
 		}

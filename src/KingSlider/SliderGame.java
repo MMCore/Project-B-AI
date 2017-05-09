@@ -25,7 +25,6 @@ public class SliderGame implements Game<Board, Move, Character> {
 	private static final int ENDLINE_PIECES_WEIGHT = 5;
 	private static final int MINIMUM_MOVES_TO_WIN_WEIGHT = -9;
 	private static final int TOTAL_BLOCKS_WEIGHT = 2;
-	private static final int TOTAL_DIAGONAL_WEIGHT = 3;
 	private static final int TOTAL_BEYOND_DIAGONAL_WEIGHT = 3;
 	private static final int TRAP_WEIGHT = 10;
 	private static final int IN_TRAP_WEIGHT = -500;
@@ -122,13 +121,12 @@ public class SliderGame implements Game<Board, Move, Character> {
 		int endLinePieces = strategy.countEndlinePieces(state);
 		int minimumMovesToWin = strategy.minimumMovesToWin(state);
 		int totalBlocks = strategy.totalBlocks(state);
-		int totalDiagonal = strategy.totalDiagonal(state);
 		int totalBeyondDiagonal = strategy.totalBeyondDiagonal(state);
 		int trapCount = strategy.trapCount(state);
 		int trappedCount = strategy.trappedCount(state);
 		
 		int stateValue = SPECIAL_BOARD_WEIGHT*specialBoardOffset + ENDLINE_PIECES_WEIGHT*endLinePieces + 
-				MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + TOTAL_BLOCKS_WEIGHT* totalBlocks + TOTAL_DIAGONAL_WEIGHT*totalDiagonal + 
+				MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + TOTAL_BLOCKS_WEIGHT* totalBlocks + 
 				TOTAL_BEYOND_DIAGONAL_WEIGHT*totalBeyondDiagonal + TRAP_WEIGHT*trapCount + IN_TRAP_WEIGHT*trappedCount;
 		
 		return stateValue;

@@ -52,17 +52,8 @@ public interface MoveStrategy {
 	 */
 	public int totalBlocks(Board boardState);
 	
-	
 	/**
-	 * Counts the number of pieces on the bottom-left to top-right diagonal
-	 * 
-	 * @param boardState  the current board state
-	 * @return			  number of pieces on the diagonal
-	 */
-	public int totalDiagonal(Board boardState);
-	
-	/**
-	 * Counts the number of pieces beyond the bottom-left to top-right diagonal
+	 * Counts the number of pieces on or beyond the bottom-left to top-right diagonal
 	 * 
 	 * @param boardState  the current board state
 	 * @return			  number of pieces beyond the diagonal
