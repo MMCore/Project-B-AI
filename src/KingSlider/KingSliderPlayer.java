@@ -75,7 +75,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 			testBoard.updateAllPieces();
 			IterativeDeepeningAlphaBetaSearch<Board, Move, Character> searchFunction = 
 					new IterativeDeepeningAlphaBetaSearch<Board, Move, Character>
-						(new SliderGame(), strategy, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, ITERATIVE_TIME_OUT);
+						(new SliderGame(), strategy, ITERATIVE_TIME_OUT);
 			nextMove = searchFunction.makeDecision(testBoard);
 		}
 		return nextMove;
