@@ -12,8 +12,6 @@ import aiproj.slider.Move;
 public class Board {
 	
 	private int boardSize;
-	private int numLegalHMoves;
-	private int numLegalVMoves;
 	private Piece[][] boardContents;
 	private char playertoMove;
 	private ArrayList<HPiece> inPlayH;
@@ -73,39 +71,25 @@ public class Board {
 	 *  This function recalculates the number of legal moves each player can make on the current board state.
 	 */
 	public void updateAllPieces() {
-		numLegalHMoves=0;
-		numLegalVMoves=0;
-		
 		for (Piece piece: inPlayH){
-			numLegalHMoves += piece.updateLegalMoves(boardContents, boardSize);
+			piece.updateLegalMoves(boardContents, boardSize);
 		}
-		
 		for (Piece piece: inPlayV){
-			numLegalVMoves += piece.updateLegalMoves(boardContents, boardSize);
+			piece.updateLegalMoves(boardContents, boardSize);
 		}
 	}
-	
-	/**
-	 * Getter for numLegalMoves
-	 * @return numLegalHMoves
-	 */
-	public int getNumLegalHMoves() {
-		return numLegalHMoves;
-	}
 
 	/**
-	 * Getter for numLegalVMoves
-	 * @return numLegalVMoves
+	 * Moves a piece in the gameContents array and updates the in-play arraylists.
+	 * 
+	 * @param x  x-coordinate of piece being moved
+	 * @param y  y-coordinate of piece being moved
+	 * @param d  direction of movement
 	 */
-	public int getNumLegalVMoves() {
-		return numLegalVMoves;
-	}
-	
-
-	public void movePiece(int i, int j, Move.Direction d){
-		Piece currPiece = boardContents[i][j];
+	public void movePiece(int x, int y, Move.Direction d){
+		Piece currPiece = boardContents[x][y];
 		if (d==Move.Direction.UP){
-			if ((j+1)==boardSize){
+			if ((y+1)==boardSize){
 				if (inPlayH.contains(currPiece)){
 					inPlayH.remove(currPiece);
 				}
@@ -114,20 +98,20 @@ public class Board {
 				}
 			}
 			else{
-				currPiece.setY(j+1);
-				boardContents[i][j+1] = currPiece;
+				currPiece.setY(y+1);
+				boardContents[x][y+1] = currPiece;
 			}
 		}
 		else if (d==Move.Direction.DOWN){
-			currPiece.setY(j-1);
-			boardContents[i][j-1] = currPiece;
+			currPiece.setY(y-1);
+			boardContents[x][y-1] = currPiece;
 		}
 		else if (d==Move.Direction.LEFT){
-			currPiece.setX(i-1);
-			boardContents[i-1][j] = currPiece;
+			currPiece.setX(x-1);
+			boardContents[x-1][y] = currPiece;
 		}
 		else if (d==Move.Direction.RIGHT){
-			if ((i+1)==boardSize){
+			if ((x+1)==boardSize){
 				if (inPlayH.contains(currPiece)){
 					inPlayH.remove(currPiece);
 				}
@@ -136,68 +120,73 @@ public class Board {
 				}
 			}
 			else{
-				currPiece.setX(i+1);
-				boardContents[i+1][j] = currPiece;
+				currPiece.setX(x+1);
+				boardContents[x+1][y] = currPiece;
 			}
 		}
-		boardContents[i][j] = null;
+		boardContents[x][y] = null;
 		updateAllPieces();
-		//printBoard();
 
 		
 		
 	}
 	
-	public void printBoard(){
-		System.out.println("printing our board below:");
-		for(int y=boardSize-1; y>=0; y--){
-			for(int x=0; x<boardSize; x++){
-				if (boardContents[x][y] instanceof HPiece){
-					System.out.print("H ");
-				}
-				else if (boardContents[x][y] instanceof VPiece){
-					System.out.print("V ");
-				}
-				else if (boardContents[x][y] instanceof BPiece){
-					System.out.print("B ");
-				}
-				else {
-					System.out.print("+ ");
-				}
-			}
-			System.out.println();
-		}
-		System.out.println();
-		System.out.println("============================================================");
-	}
-	
+	/**
+	 * Getter for inPlayH
+	 * @return an arraylist of in-play H-Pieces
+	 */
 	public ArrayList<HPiece> getInPlayH() {
 		return inPlayH;
 	}
 
+	/**
+	 * Getter for inPlayV
+	 * @return an arraylist of in-play V-Pieces
+	 */
 	public ArrayList<VPiece> getInPlayV() {
 		return inPlayV;
 	}
 	
+	/**
+	 * Getter for boardContents
+	 * @return a 2D array of Pieces  representing the board's contents
+	 */
 	
 	public ArrayList<BPiece> getBPieces() {
 		return BPieces;
 	}
 
 
-	
+	/**
+	 * Getter for boardContents
+	 * @return 2D array of pieces representing the board state
+	 */
 	public Piece[][] getBoardContents() {
 		return boardContents;
 	}
 	
+	
+	/**
+	 * Getter for playerToMove
+	 * @return a char showing which player's turn it is
+	 */
 	public char getPlayertoMove() {
 		return playertoMove;
 	}
 
+	/**
+	 * Setter for playerToMove
+	 * @param playertoMove  a char representing the player being set
+	 */
 	public void setPlayertoMove(char playertoMove) {
 		this.playertoMove = playertoMove;
 	}
 	
+	
+	/**
+	 * Returns a string representation of the boardContents 2D array
+	 * @return a string representing the current board state
+	 */
 	public String getBoardString(){
 		String board_string = "";
 		for(int j=boardSize-1; j>=0; j--){
@@ -219,6 +208,10 @@ public class Board {
 		return board_string;
 	}
 
+	/**
+	 * A getter for boardSize
+	 * @return the size of the board
+	 */
 	public int getBoardSize() {
 		return boardSize;
 	}

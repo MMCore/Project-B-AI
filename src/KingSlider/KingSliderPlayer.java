@@ -8,12 +8,16 @@ import KingSlider.strategies.PlayerVStrategy;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aiproj.slider.Move;
 
-// java -cp bin aiproj.slider.Referee 5 KingSlider.KingSliderPlayer KingSlider.KingSliderPlayer
-
 /**
  * @author Nguyen Ho (760259) and Marko Mihic (762948) 
  * This is the Game class. The main function of the program is run from here.
  *  
+ */
+
+/*
+ * In order to run this agent against itself on a 5-by-5 board:
+ * java -cp bin aiproj.slider.Referee 5 KingSlider.KingSliderPlayer KingSlider.KingSliderPlayer
+ *
  */
 
 public class KingSliderPlayer implements SliderPlayer  {
@@ -62,7 +66,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 		
 		Move nextMove = null;
 		
-		//While we decide to make a start game strategy
+		// Start-game strategy implementation
 		if(isStartGame){
 			nextMove = strategy.startGameStrategy(gameBoard);		
 			if(nextMove == null){
@@ -70,6 +74,8 @@ public class KingSliderPlayer implements SliderPlayer  {
 			}
 			
 		}
+		
+		// Mid-game strategy implementation
 		if(!isStartGame){
 			testBoard = new Board(dimension, gameBoard.getBoardString(), player);	
 			testBoard.updateAllPieces();
@@ -78,6 +84,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 						(new SliderGame(), strategy, ITERATIVE_TIME_OUT);
 			nextMove = searchFunction.makeDecision(testBoard);
 		}
+		
 		return nextMove;
 	}
 

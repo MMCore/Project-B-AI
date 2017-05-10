@@ -85,13 +85,6 @@ public interface Game<STATE, ACTION, PLAYER> {
 	 * @return        the state's utility
 	 */
 	double getUtility(STATE state, PLAYER player);
-	
-	/**
-	 * Prints out a game state
-	 * 
-	 * @param state  a game state
-	 */
-	void printGame(STATE state);
 
 	/**
 	 * Calculates an estimation of the numeric value of a given state using a given strategy

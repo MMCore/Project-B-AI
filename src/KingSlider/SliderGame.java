@@ -107,12 +107,6 @@ public class SliderGame implements Game<Board, Move, Character> {
 		}
 		return MIN_UTIL;
 	}
-	
-
-	@Override
-	public void printGame(Board state){
-		state.printBoard();
-	}
 
 	@Override
 	public int evaluateState(Board state, MoveStrategy strategy) {
@@ -125,6 +119,7 @@ public class SliderGame implements Game<Board, Move, Character> {
 		int trapCount = strategy.trapCount(state);
 		int trappedCount = strategy.trappedCount(state);
 		
+		// sums up all features with their weights
 		int stateValue = SPECIAL_BOARD_WEIGHT*specialBoardOffset + ENDLINE_PIECES_WEIGHT*endLinePieces + 
 				MINIMUM_MOVES_TO_WIN_WEIGHT*minimumMovesToWin + TOTAL_BLOCKS_WEIGHT* totalBlocks + 
 				TOTAL_BEYOND_DIAGONAL_WEIGHT*totalBeyondDiagonal + TRAP_WEIGHT*trapCount + IN_TRAP_WEIGHT*trappedCount;
