@@ -37,6 +37,10 @@ public class DestinationPoint {
 		return Y;
 	}
 	
+	/**
+	 * Getter for direction.
+	 * @return Move.Direction
+	 */
 	public Move.Direction getDirection() {
 		return direction;
 	}

@@ -65,6 +65,10 @@ public abstract class Piece {
 	}
 	
 	
+	/**
+	 * Getter for moveable positions
+	 * @return moveablePositions
+	 */
 	public ArrayList<DestinationPoint> getMovablePositions() {
 		return movablePositions;
 	}
