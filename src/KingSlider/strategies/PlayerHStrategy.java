@@ -248,8 +248,8 @@ public class PlayerHStrategy implements MoveStrategy {
 		for (int x=boardSize-2; x>=boardSize-3; x--){
 			for (int y=boardSize-1; y>x; y--){
 				if (boardContents[x][y] instanceof HPiece){
-					for (int y2=boardSize-2; y2>=boardSize-3; y2--){
-						for (int x2=boardSize-1; x2>y2; x2--){
+					for (int y2=boardSize-1; y2>=boardSize-3; y2--){
+						for (int x2=boardSize-1; x2>x; x2--){
 							if (boardContents[x2][y2] instanceof VPiece){
 								positionScore -= 1;
 							}
@@ -269,6 +269,7 @@ public class PlayerHStrategy implements MoveStrategy {
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
 		
+		// checks opponent pieces on end-line to see if they're trapped
 		for (Piece vpiece : boardState.getInPlayV()){
 			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() < boardSize-2)){
 				if ((boardContents[boardSize-1][vpiece.getY()+1] instanceof HPiece) && 
@@ -288,6 +289,7 @@ public class PlayerHStrategy implements MoveStrategy {
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
 		
+		// checks if player pieces on opponent's end line are trapped
 		for (Piece hpiece : boardState.getInPlayH()){
 			if ((hpiece.getY() == boardSize-1) && (hpiece.getX() < boardSize-2)){
 				if ((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) && 

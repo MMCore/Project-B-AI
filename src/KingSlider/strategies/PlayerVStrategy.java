@@ -241,8 +241,8 @@ public class PlayerVStrategy implements MoveStrategy {
 		for (int y=boardSize-2; y>=boardSize-3; y--){
 			for (int x=boardSize-1; x>y; x--){
 				if (boardContents[x][y] instanceof VPiece){
-					for (int x2=boardSize-2; x2>=boardSize-3; x2--){
-						for (int y2=boardSize-1; y2>x2; y2--){
+					for (int x2=boardSize-1; x2>=boardSize-3; x2--){
+						for (int y2=boardSize-1; y2>y; y2--){
 							if (boardContents[x2][y2] instanceof HPiece){
 								positionScore -= 1;
 							}
@@ -254,7 +254,7 @@ public class PlayerVStrategy implements MoveStrategy {
 		
 		// ensures pieces avoid & vacate the right column if start-game did not bring them to the top
 		for (Piece vpiece : boardState.getInPlayV()){
-			if (vpiece.getX() == boardSize-1){
+			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() != boardSize-1)){
 				positionScore -= 1;
 			}
 		}
@@ -269,7 +269,8 @@ public class PlayerVStrategy implements MoveStrategy {
 		int count = 0;
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
-		
+
+		// checks opponent pieces on end-line to see if they're trapped
 		for (Piece hpiece : boardState.getInPlayH()){
 			if ((hpiece.getY() == boardSize-1) && (hpiece.getX() < boardSize-2)){
 				if ((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) && 
@@ -288,7 +289,8 @@ public class PlayerVStrategy implements MoveStrategy {
 		int count = 0;
 		Piece[][] boardContents = boardState.getBoardContents();
 		int boardSize = boardState.getBoardSize();
-		
+
+		// checks if player pieces on opponent's end line are trapped
 		for (Piece vpiece : boardState.getInPlayV()){
 			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() < boardSize-2)){
 				if ((boardContents[boardSize-1][vpiece.getY()+1] instanceof HPiece) && 

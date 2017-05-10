@@ -91,6 +91,10 @@ public class RefereeTest {
 			turn = Player.other(turn);
 			
 			render(board);
+
+			System.out.println("times:");
+			System.out.println(" horizontal ~"+ times[Player.H]/1000000 +"ms");
+			System.out.println(" vertical   ~"+ times[Player.V]/1000000 +"ms");
 		}
 		
 
