@@ -52,22 +52,40 @@ public interface MoveStrategy {
 	 */
 	public int totalBlocks(Board boardState);
 	
-	
 	/**
-	 * Counts the number of pieces on the bottom-left to top-right diagonal
-	 * 
-	 * @param boardState  the current board state
-	 * @return			  number of pieces on the diagonal
-	 */
-	public int totalDiagonal(Board boardState);
-	
-	/**
-	 * Counts the number of pieces beyond the bottom-left to top-right diagonal
+	 * Counts the number of pieces on or beyond the bottom-left to top-right diagonal
 	 * 
 	 * @param boardState  the current board state
 	 * @return			  number of pieces beyond the diagonal
 	 */
 	public int totalBeyondDiagonal(Board boardState);
+
+
+	/**
+	 * Checks if a boardstate contains end diagonal blocks and estimates the value of pieces within.
+	 * See comments.txt for more information
+	 * 
+	 * @param boardState  the current board state
+	 * @return			  the value of pieces in the special zone if the board is a special zone;
+	 * 					  0 if the board is not a special configuration
+	 */
+	public int calculateSpecialBoardValue(Board boardState);
+	
+	/**
+	 * Counts the number of opponent pieces trapped at the edge of the board
+	 * 
+	 * @param boardState  the current board state
+	 * @return			  the number of opponent pieces trapped
+	 */
+	public int trapCount(Board boardState);
+	
+	/**
+	 * Counts the number of player pieces trapped by the opponent at the edge of the board
+	 * 
+	 * @param boardState  the current board state
+	 * @return			  the number of own pieces trapped
+	 */
+	public int trappedCount(Board boardState);
 	
 	
 	

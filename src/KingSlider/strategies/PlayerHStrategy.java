@@ -2,13 +2,11 @@ package KingSlider.strategies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import KingSlider.board.BPiece;
 import KingSlider.board.Board;
 import KingSlider.board.HPiece;
 import KingSlider.board.Piece;
-import KingSlider.board.VPiece;
 import KingSlider.board.VPiece;
 import aiproj.slider.Move;
 
@@ -177,13 +175,11 @@ public class PlayerHStrategy implements MoveStrategy {
 	}
 
 
-
-
 	@Override
-	public int totalDiagonal(Board boardState) {
+	public int totalBeyondDiagonal(Board boardState) {
 		int count = 0;
 		for (Piece piece: boardState.getInPlayH()){
-			if (piece.getX() == piece.getY()){
+			if (piece.getX() >= piece.getY()){
 				count++;
 				}
 		}
@@ -192,13 +188,117 @@ public class PlayerHStrategy implements MoveStrategy {
 
 
 	@Override
-	public int totalBeyondDiagonal(Board boardState) {
-		int count = 0;
-		for (Piece piece: boardState.getInPlayH()){
-			if (piece.getX() > piece.getY()){
-				count++;
-				}
+	public int calculateSpecialBoardValue(Board boardState) {
+		
+		// checks if board is special and if so, runs the appropriate calculation function
+		if (boardState.getBoardContents()[boardState.getBoardSize()-2][boardState.getBoardSize()-2] instanceof BPiece){
+			if (boardState.getBoardContents()[boardState.getBoardSize()-3][boardState.getBoardSize()-3] instanceof BPiece){
+				return calculateSpecialTwoBlock(boardState);
+			}
+			else{
+				return calculateSpecialOneBlock(boardState);
+			}
 		}
+		return 0;
+	}
+
+
+	// calculates the value state of a board with a block piece on the second last top-right diagonal
+	private int calculateSpecialOneBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		// does nothing if there is no bottleneck caused by the top-right corner being occupied
+		if (boardContents[boardSize-1][boardSize-1] == null){
+			return 0;
+		}
+		else if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece)&&
+					(boardContents[boardSize-1][boardSize-2] instanceof VPiece)){
+			positionScore += 1;
+		}
+		
+		// negatively weights being trapped by the opponent to the left of the top-right corner
+		if (boardContents[boardSize-2][boardSize-1] instanceof HPiece){
+			positionScore -= 2;
+		}
+		
+		return positionScore;
+	}
+
+
+	// calculates the value state of a board with 2 block pieces before the top-right diagonal
+	private int calculateSpecialTwoBlock(Board boardState) {
+		int positionScore = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		// positively weights trapping the opponent under the top-right corner
+		if ((boardContents[boardSize-1][boardSize-1] instanceof HPiece) || (boardContents[boardSize-1][boardSize-2] instanceof HPiece)){
+			for (int y=boardSize-2; y>=boardSize-3; y--){
+				for (int x=boardSize-1; x>y; x--){
+					if (boardContents[x][y] instanceof VPiece){
+						positionScore += 1;
+					}
+				}
+			}
+		}
+
+		// negatively weights being trapped by the opponent to the left of the top-right corner
+		for (int x=boardSize-2; x>=boardSize-3; x--){
+			for (int y=boardSize-1; y>x; y--){
+				if (boardContents[x][y] instanceof HPiece){
+					for (int y2=boardSize-1; y2>=boardSize-3; y2--){
+						for (int x2=boardSize-1; x2>x; x2--){
+							if (boardContents[x2][y2] instanceof VPiece){
+								positionScore -= 1;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return positionScore;
+	}
+
+
+	@Override
+	public int trapCount(Board boardState) {
+		int count = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		// checks opponent pieces on end-line to see if they're trapped
+		for (Piece vpiece : boardState.getInPlayV()){
+			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() < boardSize-2)){
+				if ((boardContents[boardSize-1][vpiece.getY()+1] instanceof HPiece) && 
+						(boardContents[boardSize-2][vpiece.getY()] instanceof HPiece)){
+					count++;
+				}
+			}
+		}
+		
+		return count;
+	}
+
+
+	@Override
+	public int trappedCount(Board boardState) {
+		int count = 0;
+		Piece[][] boardContents = boardState.getBoardContents();
+		int boardSize = boardState.getBoardSize();
+		
+		// checks if player pieces on opponent's end line are trapped
+		for (Piece hpiece : boardState.getInPlayH()){
+			if ((hpiece.getY() == boardSize-1) && (hpiece.getX() < boardSize-2)){
+				if ((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) && 
+						(boardContents[hpiece.getX()+1][boardSize-1] instanceof VPiece)){
+					count++;
+				}
+			}
+		}
+		
 		return count;
 	}
 

@@ -66,8 +66,8 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 *            Maximal computation time in milliseconds.
 	 */
 	public static <STATE, ACTION, PLAYER> IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
-			Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy,double utilMin, double utilMax, int time) {
-		return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, strategy, utilMin, utilMax, time);
+			Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy, int time) {
+		return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, strategy, time);
 	}
 
 	/**
@@ -87,11 +87,9 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 * @param time
 	 *            Maximal computation time in milliseconds.
 	 */
-	public IterativeDeepeningAlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy, double utilMin, double utilMax,
+	public IterativeDeepeningAlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, MoveStrategy strategy,
 			int time) {
 		this.game = game;
-		this.utilMin = utilMin;
-		this.utilMax = utilMax;
 		this.timer = new Timer(time);
 		this.strategy = strategy;
 	}
@@ -133,15 +131,9 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 				System.out.println(logText);
 			if (newResults.size() > 0) {
 				results = newResults.actions;
-				if (!timer.timeOutOccured()) {
-					if (hasSafeWinner(newResults.utilValues.get(0)))
-						break; // exit from iterative deepening loop
-					else if (newResults.size() > 1
-							&& isSignificantlyBetter(newResults.utilValues.get(0), newResults.utilValues.get(1)))
-						break; // exit from iterative deepening loop
-				}
 			}
 		} while (!timer.timeOutOccured() && heuristicEvaluationUsed);
+		// returns null if no valid moves can be found
 		if (results.isEmpty()){
 			return null;
 		}
@@ -204,27 +196,6 @@ public class IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> implements
 	 */
 	protected void incrementDepthLimit() {
 		currDepthLimit++;
-	}
-
-	/**
-	 * Primitive operation which is used to stop iterative deepening search in
-	 * situations where a clear best action exists. This implementation returns
-	 * always false.
-	 */
-	protected boolean isSignificantlyBetter(double newUtility, double utility) {
-		return false;
-	}
-
-	/**
-	 * Primitive operation which is used to stop iterative deepening search in
-	 * situations where a safe winner has been identified. This implementation
-	 * returns true if the given value is the highest utility value possible.
-	 */
-	protected boolean hasSafeWinner(double resultUtility) {
-		if(resultUtility >= utilMax){
-			System.out.println("SAFE WIN FOR: " + strategy.toString());
-		}
-		return resultUtility >= utilMax;
 	}
 
 	/**
