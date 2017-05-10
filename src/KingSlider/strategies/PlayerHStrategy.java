@@ -292,7 +292,7 @@ public class PlayerHStrategy implements MoveStrategy {
 		// checks if player pieces on opponent's end line are trapped
 		for (Piece hpiece : boardState.getInPlayH()){
 			if ((hpiece.getY() == boardSize-1) && (hpiece.getX() < boardSize-2)){
-				if ((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) && 
+				if (((boardContents[hpiece.getX()][boardSize-2] instanceof VPiece) || (boardContents[hpiece.getX()][boardSize-2] instanceof BPiece)) && 
 						(boardContents[hpiece.getX()+1][boardSize-1] instanceof VPiece)){
 					count++;
 				}

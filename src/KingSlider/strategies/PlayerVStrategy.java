@@ -294,7 +294,7 @@ public class PlayerVStrategy implements MoveStrategy {
 		for (Piece vpiece : boardState.getInPlayV()){
 			if ((vpiece.getX() == boardSize-1) && (vpiece.getY() < boardSize-2)){
 				if ((boardContents[boardSize-1][vpiece.getY()+1] instanceof HPiece) && 
-						(boardContents[boardSize-2][vpiece.getY()] instanceof HPiece)){
+						((boardContents[boardSize-2][vpiece.getY()] instanceof HPiece) || (boardContents[boardSize-2][vpiece.getY()] instanceof BPiece))){
 					count++;
 				}
 			}
