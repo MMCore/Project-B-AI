@@ -49,11 +49,11 @@ public class AgentMarkHoPlayer implements SliderPlayer  {
 	@Override
 	public void update(Move move) {
 		if (move == null){
-			System.out.println("Turn passed.");
+			//System.out.println("Turn passed.");
 			
 		}
 		else{
-			System.out.println(move.toString());
+			//System.out.println(move.toString());
 			gameBoard.movePiece(move.i, move.j, move.d);
 		}
 		
