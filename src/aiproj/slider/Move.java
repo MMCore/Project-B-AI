@@ -39,4 +39,3 @@ public class Move {
 		return "("+i+","+j+"): " + d;
 	}
 }
-
