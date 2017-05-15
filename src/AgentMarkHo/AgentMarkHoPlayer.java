@@ -16,7 +16,7 @@ import aiproj.slider.Move;
 
 /*
  * In order to run this agent against itself on a 5-by-5 board:
- * java -cp bin aiproj.slider.Referee 5 KingSlider.KingSliderPlayer KingSlider.KingSliderPlayer
+ * java -cp bin aiproj.slider.Referee 5 AgentMarkoHo.KingSliderPlayer AgentMarkoHo.KingSliderPlayer
  *
  */
 
