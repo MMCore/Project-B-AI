@@ -10,9 +10,9 @@ package aima.core.search.adversarial;
 import java.util.ArrayList;
 import java.util.List;
 
-import KingSlider.strategies.MoveStrategy;
-import KingSlider.strategies.PlayerHStrategy;
-import KingSlider.strategies.PlayerVStrategy;
+import AgentMarkHo.strategies.MoveStrategy;
+import AgentMarkHo.strategies.PlayerHStrategy;
+import AgentMarkHo.strategies.PlayerVStrategy;
 import aima.core.search.framework.Metrics;
 import aiproj.slider.Move;
 

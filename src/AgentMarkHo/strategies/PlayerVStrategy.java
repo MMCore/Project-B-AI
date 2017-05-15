@@ -1,13 +1,13 @@
-package KingSlider.strategies;
+package AgentMarkHo.strategies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import KingSlider.board.BPiece;
-import KingSlider.board.Board;
-import KingSlider.board.HPiece;
-import KingSlider.board.VPiece;
-import KingSlider.board.Piece;
+import AgentMarkHo.board.BPiece;
+import AgentMarkHo.board.Board;
+import AgentMarkHo.board.HPiece;
+import AgentMarkHo.board.Piece;
+import AgentMarkHo.board.VPiece;
 import aiproj.slider.Move;
 
 /**

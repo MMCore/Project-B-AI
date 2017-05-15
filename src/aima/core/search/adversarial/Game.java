@@ -8,7 +8,7 @@ package aima.core.search.adversarial;
 
 import java.util.List;
 
-import KingSlider.strategies.MoveStrategy;
+import AgentMarkHo.strategies.MoveStrategy;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>

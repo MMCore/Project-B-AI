@@ -1,10 +1,10 @@
-package KingSlider;
+package AgentMarkHo;
 
 import aiproj.slider.SliderPlayer;
-import KingSlider.board.Board;
-import KingSlider.strategies.MoveStrategy;
-import KingSlider.strategies.PlayerHStrategy;
-import KingSlider.strategies.PlayerVStrategy;
+import AgentMarkHo.board.Board;
+import AgentMarkHo.strategies.MoveStrategy;
+import AgentMarkHo.strategies.PlayerHStrategy;
+import AgentMarkHo.strategies.PlayerVStrategy;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aiproj.slider.Move;
 
@@ -20,7 +20,7 @@ import aiproj.slider.Move;
  *
  */
 
-public class KingSliderPlayer implements SliderPlayer  {
+public class AgentMarkHoPlayer implements SliderPlayer  {
 	
 	final static int ITERATIVE_TIME_OUT = 500;
 	

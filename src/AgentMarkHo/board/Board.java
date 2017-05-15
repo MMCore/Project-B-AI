@@ -1,4 +1,4 @@
-package KingSlider.board;
+package AgentMarkHo.board;
 import java.util.ArrayList;
 import aiproj.slider.Move;
 

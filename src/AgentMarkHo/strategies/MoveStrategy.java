@@ -1,6 +1,6 @@
-package KingSlider.strategies;
+package AgentMarkHo.strategies;
 
-import KingSlider.board.Board;
+import AgentMarkHo.board.Board;
 import aiproj.slider.Move;
 
 /**

@@ -1,13 +1,13 @@
-package KingSlider;
+package AgentMarkHo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import KingSlider.board.Board;
-import KingSlider.board.DestinationPoint;
-import KingSlider.board.HPiece;
-import KingSlider.board.VPiece;
-import KingSlider.strategies.MoveStrategy;
+import AgentMarkHo.board.Board;
+import AgentMarkHo.board.DestinationPoint;
+import AgentMarkHo.board.HPiece;
+import AgentMarkHo.board.VPiece;
+import AgentMarkHo.strategies.MoveStrategy;
 import aima.core.search.adversarial.Game;
 import aiproj.slider.Move;
 
