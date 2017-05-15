@@ -25,7 +25,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	final static int ITERATIVE_TIME_OUT = 500;
 	
 	private char player;
-	public static Board gameBoard;
+	private Board gameBoard;
 	private Board testBoard; 
 	private int dimension;
 	private MoveStrategy strategy;
@@ -33,7 +33,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 	
 	@Override
 	public void init(int dimension, String board, char player) {
-		KingSliderPlayer.gameBoard = new Board(dimension, board, player);
+		gameBoard = new Board(dimension, board, player);
 		this.player = player;
 		this.dimension = dimension;
 		gameBoard.updateAllPieces();
@@ -84,6 +84,7 @@ public class KingSliderPlayer implements SliderPlayer  {
 						(new SliderGame(), strategy, ITERATIVE_TIME_OUT);
 			nextMove = searchFunction.makeDecision(testBoard);
 		}
+		update(nextMove);
 		
 		return nextMove;
 	}
